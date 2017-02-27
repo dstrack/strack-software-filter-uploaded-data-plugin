@@ -181,7 +181,10 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 		dbms_lob.createtemporary(v_Bad_Result, true, dbms_lob.call);
 		dbms_lob.createtemporary(v_Good_Result, true, dbms_lob.call);
 
-		v_Column_Delimiter := Decode_Delimiter(p_Column_Delimiter);
+		v_Column_Delimiter :=
+			case p_Column_Delimiter
+			when '\t' then chr(9)
+			else p_Column_Delimiter end;
 
 		if p_Import_From = 'UPLOAD' then
 			if p_File_Name IS NULL then
@@ -208,16 +211,16 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 			WHERE collection_name = 'CLOB_CONTENT';
 		end if;
 		-- try line delimiter \r\n -- crlf
-		v_Line_Delimiter := Decode_Delimiter('\r') || Decode_Delimiter('\n');
+		v_Line_Delimiter := chr(13) || chr(10);
 		v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);
 		if v_Offset = 0 or v_Offset >= g_linemaxsize then
-			-- try line delimiter \n
-			v_Line_Delimiter := Decode_Delimiter('\n');
+			-- try line delimiter lf
+			v_Line_Delimiter := chr(10);
 			v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);
 		end if;
 		if v_Offset = 0 or v_Offset >= g_linemaxsize then
-			-- try line delimiter \r
-			v_Line_Delimiter := Decode_Delimiter('\r');
+			-- try line delimiter cr
+			v_Line_Delimiter := chr(13);
 			v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);
 		end if;
 		if v_Offset = 0 or v_Offset >= g_linemaxsize  then
@@ -355,7 +358,7 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 			apex_debug.info('Good_Rows_Count : %s', v_Good_Rows_Cnt);
 			apex_debug.info('Error Message   : %s', v_Message);
 		end if;
-		v_exec_result.execution_skipped := (v_Message != 'OK');
+		v_exec_result.execution_skipped := false;
 		if v_Show_Message = 'Y' then
 			if v_Message = 'OK' then
 				v_exec_result.success_message := APEX_LANG.LANG (

@@ -49,3 +49,11 @@ Navigate back to the "XX - Data Load Source" and assign the PXX_BAD_ROWS item na
 The process is skipped when not data can be processced and one of the following success messages is returned:
 'File name is empty.', 'Line delimiter not found.', 'Separator not found in first line.' and 'Row %0 : %1' for bad rows.
 the messages can be translated via enties in the Dynamic Translations Lists
+
+----------
+Installation 
+
+The package IMPORT_FILTER_PLUGIN has to be installed in the application schema. 
+execute the file filter_uploaded_data_plsql_code.sql to install the required database objects.
+You can add the file to the installation script of you application.
+
