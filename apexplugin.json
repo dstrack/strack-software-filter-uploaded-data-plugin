@@ -25,7 +25,7 @@
       "plugin": {
         "internalName": "COM.STRACK-SOFTWARE.FILTER_UPLOADED_DATA",
         "type": "process",
-        "demo": "https://apex.oracle.com/pls/apex/f?p=18290:1",
+        "demo": "https://apex.oracle.com/pls/apex/f?p=108465:1",
         "previewImage": "https://raw.githubusercontent.com/dstrack/strack-software-filter-uploaded-data-plugin/master/preview.png"
       }
     }
