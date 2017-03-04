@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Process plugin for filtering uploaded data",
   "keywords": ["import", "uploaded data", "data validation"],
-  "homepage": "https://strack-software-development.blogspot.com",
+  "homepage": "https://github.com/dstrack/strack-software-filter-uploaded-data-plugin",
   "bugs": {
     "url": "https://github.com/dstrack/strack-software-filter-uploaded-data-plugin/issues",
     "email": "strack.software@t-online.de"
