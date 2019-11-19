@@ -92,7 +92,7 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 	  v_srcoff	PLS_INTEGER := 1;
 	  v_langctx PLS_INTEGER := 0;
 	  v_warning PLS_INTEGER := 1;
-	  v_blob_csid PLS_INTEGER;
+	  v_blob_csid NUMBER;
 	begin
 		v_blob_csid := nvl(nls_charset_id(p_blob_charset), nls_charset_id('AL32UTF8'));
 
@@ -368,10 +368,10 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 					p_primary_language => 'en'
 				);
 			else
-				v_exec_result.success_message := APEX_LANG.LANG (
-					p_primary_text_string => v_Message,
-					p_primary_language => 'en'
-				);
+				Apex_Error.Add_Error (
+					p_message  => Apex_Lang.Lang(v_Message, p_primary_language => 'en'),
+					p_display_location => apex_error.c_inline_in_notification
+				);				
 			end if;
 		end if;
 		RETURN v_exec_result;
