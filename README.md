@@ -1,4 +1,4 @@
-README:
+# README:
 
 Plugin for filtering uploaded data.
 
@@ -8,9 +8,9 @@ then use this plugin to filter the uploaded data.
 
 If you encounter errors in the attempt to process an uploaded file or pasted data,
 and you have a large import file it can be difficult to find the bad rows that cause the error.
-In this case you can use this plugin to extract the bad formated rows with a row number into a page item.
+In this case you can use this plugin, to extract the bad formated rows with a row number into a page item.
 
-When a row has fewer columns than the count of columns found in the first row it is a bad row.
+When a row has fewer columns than the count of columns found in the first row, it is a bad row.
 The filter process removes bad rows from the input and returns the bad rows with a row number in the bad rows item.
 The bad rows can be optionally displayed on the "Data Validation" or "Upload Results" page.
 You have to create a Page Item PXX_BAD_ROWS . The PXX_BAD_ROWS has to be set in the 'Bad Rows Item' attribute of the plugin.
@@ -54,7 +54,7 @@ The process is skipped when not data can be processced and one of the following 
 The messages can be translated via enties in the Dynamic Translations Lists
 
 ----------
-Installation 
+## Installation 
 
 The package IMPORT_FILTER_PLUGIN has to be installed in the application schema. 
 execute the file filter_uploaded_data_plsql_code.sql to install the required database objects.
