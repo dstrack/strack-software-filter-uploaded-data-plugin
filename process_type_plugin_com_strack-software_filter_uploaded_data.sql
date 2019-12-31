@@ -1,3 +1,4 @@
+prompt --application/set_environment
 set define off verify off feedback off
 whenever sqlerror exit sql.sqlcode rollback
 --------------------------------------------------------------------------------
@@ -5,24 +6,19 @@ whenever sqlerror exit sql.sqlcode rollback
 -- ORACLE Application Express (APEX) export file
 --
 -- You should run the script connected to SQL*Plus as the Oracle user
--- APEX_050000 or as the owner (parsing schema) of the application.
+-- APEX_190100 or as the owner (parsing schema) of the application.
 --
 -- NOTE: Calls to apex_application_install override the defaults below.
 --
 --------------------------------------------------------------------------------
 begin
 wwv_flow_api.import_begin (
- p_version_yyyy_mm_dd=>'2013.01.01'
-,p_release=>'5.0.3.00.03'
-,p_default_workspace_id=>29130325972058056
+ p_version_yyyy_mm_dd=>'2019.03.31'
+,p_release=>'19.1.0.00.15'
+,p_default_workspace_id=>1304835857079617
 ,p_default_application_id=>108465
 ,p_default_owner=>'STRACK_DEV'
 );
-end;
-/
-prompt --application/ui_types
-begin
-null;
 end;
 /
 prompt --application/shared_components/plugins/process_type/com_strack_software_filter_uploaded_data
@@ -33,10 +29,11 @@ wwv_flow_api.create_plugin(
 ,p_name=>'COM.STRACK-SOFTWARE.FILTER_UPLOADED_DATA'
 ,p_display_name=>'Filter Uploaded Data'
 ,p_supported_ui_types=>'DESKTOP:JQM_SMARTPHONE'
+,p_api_version=>1
 ,p_execution_function=>'import_filter_plugin.Filter_Upload'
 ,p_substitute_attributes=>true
 ,p_subscribe_plugin_settings=>true
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Plugin for filtering uploaded data.',
 '',
 'If you get an "ORA-06502: PL/SQL: numeric or value error: character string buffer too small" error',
@@ -89,7 +86,7 @@ wwv_flow_api.create_plugin(
 '''File name is empty.'', ''Line delimiter not found.'', ''Separator not found in first line.''.',
 'the messages can be translated via enties in the Dynamic Translations Lists'))
 ,p_version_identifier=>'1.0'
-,p_plugin_comment=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_plugin_comment=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'The package IMPORT_FILTER_PLUGIN has to be installed in the application schema. ',
 'execute the file filter_uploaded_data_plsql_code.sql to install the required database objects.',
 'You can add the file to the installation script of you application.',
@@ -158,7 +155,7 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>false
 ,p_is_translatable=>false
 ,p_examples=>'PXX_BAD_ROWS'
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Enter the page item to receive the bad rows. ',
 'You can type in the name or pick from the list of available items.',
 'When the Plugin is processed, rows that do not contain the proper formating will be removed ',
@@ -199,7 +196,7 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>false
 ,p_default_value=>'Y'
 ,p_is_translatable=>false
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Set this attribute to ''Yes'' when a Success Message should be displayed.',
 'The Message is of the form "Filtered uploaded data. Found %0 good rows and %1 bad rows." and is displayed, when a page branch with the option ''include process success message '' is followed.'))
 );

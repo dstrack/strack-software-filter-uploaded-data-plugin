@@ -1,3 +1,4 @@
+prompt --application/set_environment
 set define off verify off feedback off
 whenever sqlerror exit sql.sqlcode rollback
 --------------------------------------------------------------------------------
@@ -5,34 +6,33 @@ whenever sqlerror exit sql.sqlcode rollback
 -- ORACLE Application Express (APEX) export file
 --
 -- You should run the script connected to SQL*Plus as the Oracle user
--- APEX_050000 or as the owner (parsing schema) of the application.
+-- APEX_190100 or as the owner (parsing schema) of the application.
 --
 -- NOTE: Calls to apex_application_install override the defaults below.
 --
 --------------------------------------------------------------------------------
 begin
 wwv_flow_api.import_begin (
- p_version_yyyy_mm_dd=>'2013.01.01'
-,p_release=>'5.0.3.00.03'
-,p_default_workspace_id=>29130325972058056
+ p_version_yyyy_mm_dd=>'2019.03.31'
+,p_release=>'19.1.0.00.15'
+,p_default_workspace_id=>1304835857079617
 ,p_default_application_id=>108465
 ,p_default_owner=>'STRACK_DEV'
 );
 end;
 /
-prompt --application/set_environment
  
 prompt APPLICATION 108465 - Data Upload Filter Plugin Demo
 --
 -- Application Export:
 --   Application:     108465
 --   Name:            Data Upload Filter Plugin Demo
---   Date and Time:   19:07 Saturday March 4, 2017
+--   Date and Time:   01:18 Tuesday December 31, 2019
 --   Exported By:     DIRK
 --   Flashback:       0
 --   Export Type:     Application Export
---   Version:         5.0.3.00.03
---   Instance ID:     133867551850779
+--   Version:         19.1.0.00.15
+--   Instance ID:     250161874321153
 --
 
 -- Application Statistics:
@@ -68,6 +68,7 @@ prompt APPLICATION 108465 - Data Upload Filter Plugin Demo
 --       Plug-ins:               1
 --     Globalization:
 --     Reports:
+--     E-Mail:
 --   Supporting Objects:  Included
 --     Install scripts:          5
 
@@ -76,17 +77,11 @@ begin
 wwv_flow_api.remove_flow(wwv_flow.g_flow_id);
 end;
 /
-prompt --application/ui_types
-begin
-null;
-end;
-/
 prompt --application/create_application
 begin
 wwv_flow_api.create_flow(
  p_id=>wwv_flow.g_flow_id
-,p_display_id=>nvl(wwv_flow_application_install.get_application_id,108465)
-,p_owner=>nvl(wwv_flow_application_install.get_schema,'DVLA_GHANA_DEV')
+,p_owner=>nvl(wwv_flow_application_install.get_schema,'STRACK_DEV')
 ,p_name=>nvl(wwv_flow_application_install.get_application_name,'Data Upload Filter Plugin Demo')
 ,p_alias=>nvl(wwv_flow_application_install.get_application_alias,'F_1011')
 ,p_page_view_logging=>'YES'
@@ -96,13 +91,18 @@ wwv_flow_api.create_flow(
 ,p_compatibility_mode=>'5.0'
 ,p_flow_language=>'en'
 ,p_flow_language_derived_from=>'FLOW_PRIMARY_LANGUAGE'
+,p_direction_right_to_left=>'N'
 ,p_flow_image_prefix => nvl(wwv_flow_application_install.get_image_prefix,'')
 ,p_authentication=>'PLUGIN'
 ,p_authentication_id=>wwv_flow_api.id(61418100289976657)
+,p_populate_roles=>'A'
 ,p_application_tab_set=>0
 ,p_logo_image=>'TEXT:Data Upload Filter Plugin Demo'
+,p_favicons=>'<link rel="shortcut icon" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading.ico"><link rel="icon" sizes="16x16" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading-16x16.png"><link rel="icon" sizes="32x32" href="#IMAGE_PRE'
+||'FIX#apex_ui/img/favicons/app-sample-data-loading-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading.png">'
 ,p_public_user=>'APEX_PUBLIC_USER'
-,p_proxy_server=> nvl(wwv_flow_application_install.get_proxy,'')
+,p_proxy_server=>nvl(wwv_flow_application_install.get_proxy,'')
+,p_no_proxy_domains=>nvl(wwv_flow_application_install.get_no_proxy_domains,'')
 ,p_flow_version=>'release 1.0'
 ,p_flow_status=>'AVAILABLE_W_EDIT_LINK'
 ,p_flow_unavailable_text=>'This application is currently unavailable at this time.'
@@ -115,17 +115,14 @@ wwv_flow_api.create_flow(
 ,p_auto_time_zone=>'N'
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'Data Upload Filter Plugin Demo'
-,p_substitution_string_02=>'APP_FAVICONS'
-,p_substitution_value_02=>'<link rel="shortcut icon" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading.ico"><link rel="icon" sizes="16x16" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading-16x16.png"><link rel="icon" sizes="32x32" href="#IMAGE_PRE'
-||'FIX#apex_ui/img/favicons/app-sample-data-loading-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="#IMAGE_PREFIX#apex_ui/img/favicons/app-sample-data-loading.png">'
 ,p_last_updated_by=>'DIRK'
-,p_last_upd_yyyymmddhh24miss=>'20170304185446'
+,p_last_upd_yyyymmddhh24miss=>'20191230025351'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_ui_type_name => null
 );
 end;
 /
-prompt --application/shared_components/navigation/lists
+prompt --application/shared_components/navigation/lists/desktop_navigation_menu
 begin
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(61202654715171248)
@@ -140,6 +137,10 @@ wwv_flow_api.create_list_item(
 ,p_list_item_current_type=>'COLON_DELIMITED_PAGE_LIST'
 ,p_list_item_current_for_pages=>'1'
 );
+end;
+/
+prompt --application/shared_components/navigation/lists/desktop_navigation_bar
+begin
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(61244973688171324)
 ,p_name=>'Desktop Navigation Bar'
@@ -152,6 +153,10 @@ wwv_flow_api.create_list_item(
 ,p_list_item_link_target=>'&LOGOUT_URL.'
 ,p_list_item_current_for_pages=>'&LOGOUT_URL.'
 );
+end;
+/
+prompt --application/shared_components/navigation/lists/data_load_process_train_load_employees
+begin
 wwv_flow_api.create_list(
  p_id=>wwv_flow_api.id(61645094510593317)
 ,p_name=>'Data Load Process Train - Load Employees'
@@ -187,13 +192,31 @@ wwv_flow_api.create_list_item(
 );
 end;
 /
-prompt --application/shared_components/files
-begin
-null;
-end;
-/
 prompt --application/plugin_settings
 begin
+wwv_flow_api.create_plugin_setting(
+ p_id=>wwv_flow_api.id(48073658991794841)
+,p_plugin_type=>'ITEM TYPE'
+,p_plugin=>'NATIVE_COLOR_PICKER'
+,p_attribute_01=>'classic'
+);
+wwv_flow_api.create_plugin_setting(
+ p_id=>wwv_flow_api.id(48073771412794841)
+,p_plugin_type=>'ITEM TYPE'
+,p_plugin=>'NATIVE_RICH_TEXT_EDITOR'
+,p_attribute_01=>'N'
+);
+wwv_flow_api.create_plugin_setting(
+ p_id=>wwv_flow_api.id(48073810772794841)
+,p_plugin_type=>'REGION TYPE'
+,p_plugin=>'NATIVE_IR'
+,p_attribute_01=>'LEGACY'
+);
+wwv_flow_api.create_plugin_setting(
+ p_id=>wwv_flow_api.id(48073905323794841)
+,p_plugin_type=>'REGION TYPE'
+,p_plugin=>'NATIVE_IG'
+);
 wwv_flow_api.create_plugin_setting(
  p_id=>wwv_flow_api.id(61202293036171248)
 ,p_plugin_type=>'REGION TYPE'
@@ -211,20 +234,11 @@ wwv_flow_api.create_plugin_setting(
 ,p_plugin=>'NATIVE_YES_NO'
 ,p_attribute_01=>'Y'
 ,p_attribute_03=>'N'
+,p_attribute_05=>'SELECT_LIST'
 );
 end;
 /
-prompt --application/shared_components/security/authorizations
-begin
-null;
-end;
-/
 prompt --application/shared_components/navigation/navigation_bar
-begin
-null;
-end;
-/
-prompt --application/shared_components/logic/application_processes
 begin
 null;
 end;
@@ -239,6 +253,11 @@ begin
 null;
 end;
 /
+prompt --application/shared_components/logic/application_settings
+begin
+null;
+end;
+/
 prompt --application/shared_components/navigation/tabs/standard
 begin
 null;
@@ -249,7 +268,7 @@ begin
 null;
 end;
 /
-prompt --application/shared_components/user_interface/lovs
+prompt --application/shared_components/user_interface/lovs/data_load_charset
 begin
 wwv_flow_api.create_list_of_values(
  p_id=>wwv_flow_api.id(61313540621822093)
@@ -436,6 +455,10 @@ wwv_flow_api.create_static_lov_data(
 ,p_lov_disp_value=>'Western European Windows 1252'
 ,p_lov_return_value=>'windows-1252'
 );
+end;
+/
+prompt --application/shared_components/user_interface/lovs/data_load_option
+begin
 wwv_flow_api.create_list_of_values(
  p_id=>wwv_flow_api.id(61305709389822074)
 ,p_lov_name=>'DATA_LOAD_OPTION'
@@ -453,6 +476,10 @@ wwv_flow_api.create_static_lov_data(
 ,p_lov_disp_value=>'Copy and Paste'
 ,p_lov_return_value=>'PASTE'
 );
+end;
+/
+prompt --application/shared_components/user_interface/lovs/date_format_option
+begin
 wwv_flow_api.create_list_of_values(
  p_id=>wwv_flow_api.id(61311906444822092)
 ,p_lov_name=>'DATE_FORMAT_OPTION'
@@ -464,6 +491,10 @@ wwv_flow_api.create_static_lov_data(
 ,p_lov_disp_value=>'Yes'
 ,p_lov_return_value=>'Y'
 );
+end;
+/
+prompt --application/shared_components/user_interface/lovs/first_row_option
+begin
 wwv_flow_api.create_list_of_values(
  p_id=>wwv_flow_api.id(61310317538822089)
 ,p_lov_name=>'FIRST_ROW_OPTION'
@@ -475,6 +506,10 @@ wwv_flow_api.create_static_lov_data(
 ,p_lov_disp_value=>'Yes'
 ,p_lov_return_value=>'Y'
 );
+end;
+/
+prompt --application/shared_components/user_interface/lovs/lov_dataload_load_employees
+begin
 wwv_flow_api.create_list_of_values(
  p_id=>wwv_flow_api.id(61911548885889386)
 ,p_lov_name=>'LOV_DATALOAD_LOAD EMPLOYEES'
@@ -548,11 +583,6 @@ wwv_flow_api.create_static_lov_data(
 );
 end;
 /
-prompt --application/shared_components/navigation/trees
-begin
-null;
-end;
-/
 prompt --application/pages/page_groups
 begin
 null;
@@ -578,15 +608,16 @@ wwv_flow_api.create_menu_option(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/page
+prompt --application/shared_components/user_interface/templates/page/left_side_column
 begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61202770817171253)
 ,p_theme_id=>42
 ,p_name=>'Left Side Column'
+,p_internal_name=>'LEFT_SIDE_COLUMN'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.leftSideCol();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -628,7 +659,7 @@ wwv_flow_api.create_template(
 '    #REGION_POSITION_06#',
 '  </div>',
 '</header>'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '#SIDE_GLOBAL_NAVIGATION_LIST#',
 '  <div class="t-Body-main">',
@@ -655,7 +686,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -667,7 +698,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -685,7 +716,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -703,7 +734,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -712,7 +743,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -722,7 +753,7 @@ wwv_flow_api.create_template(
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>17
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -748,15 +779,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -837,13 +868,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/left_and_right_side_columns
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61203658786171260)
 ,p_theme_id=>42
 ,p_name=>'Left and Right Side Columns'
+,p_internal_name=>'LEFT_AND_RIGHT_SIDE_COLUMNS'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.bothSideCols();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -885,7 +921,7 @@ wwv_flow_api.create_template(
 '    #REGION_POSITION_06#',
 '  </div>',
 '</header>'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '#SIDE_GLOBAL_NAVIGATION_LIST#',
 '  <div class="t-Body-main">',
@@ -918,7 +954,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -930,7 +966,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -948,7 +984,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -966,7 +1002,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -975,7 +1011,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -986,7 +1022,7 @@ wwv_flow_api.create_template(
 ,p_sidebar_def_reg_pos=>'REGION_POSITION_03'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>17
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -1012,15 +1048,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -1110,13 +1146,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/minimal_no_navigation
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61204677449171261)
 ,p_theme_id=>42
 ,p_name=>'Minimal (No Navigation)'
+,p_internal_name=>'MINIMAL_NO_NAVIGATION'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.noSideCol();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -1155,7 +1196,7 @@ wwv_flow_api.create_template(
 '  </div>',
 '</header>',
 '    '))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '  <div class="t-Body-main">',
 '      <div class="t-Body-title" id="t_Body_title">',
@@ -1178,7 +1219,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -1191,7 +1232,7 @@ wwv_flow_api.create_template(
 '</body>',
 '</html>',
 ''))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1209,7 +1250,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1227,7 +1268,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar t-NavigationBar--classic" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -1236,7 +1277,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -1246,7 +1287,7 @@ wwv_flow_api.create_template(
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>4
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -1272,15 +1313,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -1352,13 +1393,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/right_side_column
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61205429820171261)
 ,p_theme_id=>42
 ,p_name=>'Right Side Column'
+,p_internal_name=>'RIGHT_SIDE_COLUMN'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.rightSideCol();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -1400,7 +1446,7 @@ wwv_flow_api.create_template(
 '    #REGION_POSITION_06#',
 '  </div>',
 '</header>'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '#SIDE_GLOBAL_NAVIGATION_LIST#',
 '  <div class="t-Body-main">',
@@ -1430,7 +1476,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -1442,7 +1488,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1460,7 +1506,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1478,7 +1524,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -1487,7 +1533,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -1498,7 +1544,7 @@ wwv_flow_api.create_template(
 ,p_sidebar_def_reg_pos=>'REGION_POSITION_03'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>17
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -1524,15 +1570,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -1545,9 +1591,6 @@ wwv_flow_api.create_template(
 ,p_reference_id=>2525200116240651575
 ,p_translate_this_template=>'N'
 );
-end;
-/
-begin
 wwv_flow_api.create_page_tmpl_display_point(
  p_id=>wwv_flow_api.id(61205559277171261)
 ,p_page_template_id=>wwv_flow_api.id(61205429820171261)
@@ -1616,13 +1659,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/standard
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61206363415171262)
 ,p_theme_id=>42
 ,p_name=>'Standard'
+,p_internal_name=>'STANDARD'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.noSideCol();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -1665,7 +1713,7 @@ wwv_flow_api.create_template(
 '  </div>',
 '</header>',
 '    '))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '  #SIDE_GLOBAL_NAVIGATION_LIST#',
 '  <div class="t-Body-main">',
@@ -1689,7 +1737,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -1702,7 +1750,7 @@ wwv_flow_api.create_template(
 '</body>',
 '</html>',
 ''))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1720,7 +1768,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1738,7 +1786,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar t-NavigationBar--classic" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -1747,7 +1795,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -1757,7 +1805,7 @@ wwv_flow_api.create_template(
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>1
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -1783,15 +1831,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -1863,13 +1911,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>false
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/login
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61207132975171262)
 ,p_theme_id=>42
 ,p_name=>'Login'
+,p_internal_name=>'LOGIN'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.appLogin();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!doctype html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -1893,7 +1946,7 @@ wwv_flow_api.create_template(
 '</head>',
 '<body class="t-PageBody--login no-anim #PAGE_CSS_CLASSES#" #ONLOAD#>',
 '#FORM_OPEN#'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '  #REGION_POSITION_01#',
 '  #SUCCESS_MESSAGE##NOTIFICATION_MESSAGE##GLOBAL_NOTIFICATION#',
@@ -1905,7 +1958,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -1917,7 +1970,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1935,7 +1988,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -1956,7 +2009,7 @@ wwv_flow_api.create_template(
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>6
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -1982,15 +2035,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -2020,13 +2073,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/master_detail
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61207413682171262)
 ,p_theme_id=>42
 ,p_name=>'Master Detail'
+,p_internal_name=>'MASTER_DETAIL'
 ,p_is_popup=>false
 ,p_javascript_code_onload=>'apex.theme42.initializePage.masterDetail();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -2068,7 +2126,7 @@ wwv_flow_api.create_template(
 '    #REGION_POSITION_06#',
 '  </div>',
 '</header>'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body">',
 '#SIDE_GLOBAL_NAVIGATION_LIST#',
 '  <div class="t-Body-main">',
@@ -2101,7 +2159,7 @@ wwv_flow_api.create_template(
 '<div class="t-Body-inlineDialogs">',
 '  #REGION_POSITION_04#',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -2113,7 +2171,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2131,7 +2189,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2149,7 +2207,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_navigation_bar=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navigation_bar=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-NavigationBar" data-mode="classic">',
 '  <li class="t-NavigationBar-item">',
 '    <span class="t-Button t-Button--icon t-Button--noUI t-Button--header t-Button--navBar t-Button--headerUser">',
@@ -2158,7 +2216,7 @@ wwv_flow_api.create_template(
 '    </span>',
 '  </li>#BAR_BODY#',
 '</ul>'))
-,p_navbar_entry=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_navbar_entry=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#">',
 '      <span class="t-Icon #IMAGE#"></span>',
@@ -2169,7 +2227,7 @@ wwv_flow_api.create_template(
 ,p_sidebar_def_reg_pos=>'REGION_POSITION_03'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>17
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -2195,15 +2253,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -2292,13 +2350,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/modal_dialog
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61208481277171263)
 ,p_theme_id=>42
 ,p_name=>'Modal Dialog'
+,p_internal_name=>'MODAL_DIALOG'
 ,p_is_popup=>true
 ,p_javascript_code_onload=>'apex.theme42.initializePage.modalDialog();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -2322,7 +2385,7 @@ wwv_flow_api.create_template(
 '</head>',
 '<body class="t-Dialog-page #DIALOG_CSS_CLASSES# #PAGE_CSS_CLASSES#" #ONLOAD#>',
 '#FORM_OPEN#'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Dialog" role="dialog" aria-label="#TITLE#">',
 '  <div class="t-Dialog-wrapper">',
 '    <div class="t-Dialog-header">',
@@ -2337,7 +2400,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -2349,7 +2412,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2367,7 +2430,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2388,7 +2451,7 @@ wwv_flow_api.create_template(
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_breadcrumb_def_reg_pos=>'REGION_POSITION_01'
 ,p_theme_class_id=>3
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -2414,15 +2477,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -2439,9 +2502,6 @@ wwv_flow_api.create_template(
 ,p_reference_id=>2098960803539086924
 ,p_translate_this_template=>'N'
 );
-end;
-/
-begin
 wwv_flow_api.create_page_tmpl_display_point(
  p_id=>wwv_flow_api.id(61208501227171263)
 ,p_page_template_id=>wwv_flow_api.id(61208481277171263)
@@ -2467,13 +2527,18 @@ wwv_flow_api.create_page_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/page/wizard_modal_dialog
+begin
 wwv_flow_api.create_template(
  p_id=>wwv_flow_api.id(61208820771171263)
 ,p_theme_id=>42
 ,p_name=>'Wizard Modal Dialog'
+,p_internal_name=>'WIZARD_MODAL_DIALOG'
 ,p_is_popup=>true
 ,p_javascript_code_onload=>'apex.theme42.initializePage.wizardModal();'
-,p_header_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_header_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<meta http-equiv="x-ua-compatible" content="IE=edge" />',
 '',
@@ -2497,7 +2562,7 @@ wwv_flow_api.create_template(
 '</head>',
 '<body class="t-Dialog-page #DIALOG_CSS_CLASSES# #PAGE_CSS_CLASSES#" #ONLOAD#>',
 '#FORM_OPEN#'))
-,p_box=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_box=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Dialog" role="dialog" aria-label="#TITLE#">',
 '  <div class="t-Wizard t-Wizard--modal">',
 '    <div class=" t-Wizard-steps">',
@@ -2512,7 +2577,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_footer_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_footer_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '#FORM_CLOSE#',
 '#DEVELOPER_TOOLBAR#',
 '#APEX_JAVASCRIPT#',
@@ -2524,7 +2589,7 @@ wwv_flow_api.create_template(
 '#GENERATED_JAVASCRIPT#',
 '</body>',
 '</html>'))
-,p_success_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_success_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--success t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Success" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2542,7 +2607,7 @@ wwv_flow_api.create_template(
 '    </div>',
 '  </div>',
 '</div>'))
-,p_notification_message=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_notification_message=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-alert">',
 '  <div class="t-Alert t-Alert--defaultIcons t-Alert--warning t-Alert--horizontal t-Alert--page t-Alert--colorBG" id="t_Alert_Notification" role="alert">',
 '    <div class="t-Alert-wrap">',
@@ -2562,7 +2627,7 @@ wwv_flow_api.create_template(
 '</div>'))
 ,p_region_table_cattributes=>' summary="" cellpadding="0" border="0" cellspacing="0" width="100%"'
 ,p_theme_class_id=>3
-,p_error_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_error_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--danger t-Alert--wizard t-Alert--defaultIcons">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -2588,15 +2653,15 @@ wwv_flow_api.create_template(
 ,p_grid_emit_empty_leading_cols=>true
 ,p_grid_emit_empty_trail_cols=>false
 ,p_grid_default_label_col_span=>3
-,p_grid_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="container">',
 '#ROWS#',
 '</div>'))
-,p_grid_row_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_row_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="row">',
 '#COLUMNS#',
 '</div>'))
-,p_grid_column_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_grid_column_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="col col-#COLUMN_SPAN_NUMBER# #CSS_CLASSES#" #ATTRIBUTES#>',
 '#CONTENT#',
 '</div>'))
@@ -2640,11 +2705,12 @@ wwv_flow_api.create_page_tmpl_display_point(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/button
+prompt --application/shared_components/user_interface/templates/button/icon
 begin
 wwv_flow_api.create_button_templates(
  p_id=>wwv_flow_api.id(61239781106171295)
 ,p_template_name=>'Icon'
+,p_internal_name=>'ICON'
 ,p_template=>'<button class="t-Button t-Button--noLabel t-Button--icon #BUTTON_CSS_CLASSES#" #BUTTON_ATTRIBUTES# onclick="#JAVASCRIPT#" type="button" id="#BUTTON_ID#" title="#LABEL#" aria-label="#LABEL#"><span class="t-Icon #ICON_CSS_CLASSES#" aria-hidden="true"><'
 ||'/span></button>'
 ,p_hot_template=>'<button class="t-Button t-Button--noLabel t-Button--icon #BUTTON_CSS_CLASSES# t-Button--hot" #BUTTON_ATTRIBUTES# onclick="#JAVASCRIPT#" type="button" id="#BUTTON_ID#" title="#LABEL#" aria-label="#LABEL#"><span class="t-Icon #ICON_CSS_CLASSES#" aria-h'
@@ -2654,9 +2720,14 @@ wwv_flow_api.create_button_templates(
 ,p_theme_class_id=>5
 ,p_theme_id=>42
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/button/text
+begin
 wwv_flow_api.create_button_templates(
  p_id=>wwv_flow_api.id(61239802815171296)
 ,p_template_name=>'Text'
+,p_internal_name=>'TEXT'
 ,p_template=>'<button onclick="#JAVASCRIPT#" class="t-Button #BUTTON_CSS_CLASSES#" type="button" #BUTTON_ATTRIBUTES# id="#BUTTON_ID#"><span class="t-Button-label">#LABEL#</span></button>'
 ,p_hot_template=>'<button onclick="#JAVASCRIPT#" class="t-Button t-Button--hot #BUTTON_CSS_CLASSES#" type="button" #BUTTON_ATTRIBUTES# id="#BUTTON_ID#"><span class="t-Button-label">#LABEL#</span></button>'
 ,p_reference_id=>4070916158035059322
@@ -2664,9 +2735,14 @@ wwv_flow_api.create_button_templates(
 ,p_theme_class_id=>1
 ,p_theme_id=>42
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/button/text_with_icon
+begin
 wwv_flow_api.create_button_templates(
  p_id=>wwv_flow_api.id(61239904420171296)
 ,p_template_name=>'Text with Icon'
+,p_internal_name=>'TEXT_WITH_ICON'
 ,p_template=>'<button class="t-Button t-Button--icon #BUTTON_CSS_CLASSES#" #BUTTON_ATTRIBUTES# onclick="#JAVASCRIPT#" type="button" id="#BUTTON_ID#"><span class="t-Icon t-Icon--left #ICON_CSS_CLASSES#" aria-hidden="true"></span><span class="t-Button-label">#LABEL#'
 ||'</span><span class="t-Icon t-Icon--right #ICON_CSS_CLASSES#" aria-hidden="true"></span></button>'
 ,p_hot_template=>'<button class="t-Button t-Button--icon #BUTTON_CSS_CLASSES# t-Button--hot" #BUTTON_ATTRIBUTES# onclick="#JAVASCRIPT#" type="button" id="#BUTTON_ID#"><span class="t-Icon t-Icon--left #ICON_CSS_CLASSES#" aria-hidden="true"></span><span class="t-Button-'
@@ -2679,12 +2755,12 @@ wwv_flow_api.create_button_templates(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/region
+prompt --application/shared_components/user_interface/templates/region/alert
 begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61209208904171264)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -2702,6 +2778,7 @@ wwv_flow_api.create_plug_template(
 '  </div>',
 '</div>'))
 ,p_page_plug_template_name=>'Alert'
+,p_internal_name=>'ALERT'
 ,p_plug_table_bgcolor=>'#ffffff'
 ,p_theme_id=>42
 ,p_theme_class_id=>21
@@ -2723,14 +2800,19 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_glv_new_row=>true
 ,p_max_fixed_grid_columns=>12
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/blank_with_attributes
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61210757455171269)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# class="#REGION_CSS_CLASSES#"> ',
 '#PREVIOUS##BODY##SUB_REGIONS##NEXT#',
 '</div>'))
 ,p_page_plug_template_name=>'Blank with Attributes'
+,p_internal_name=>'BLANK_WITH_ATTRIBUTES'
 ,p_theme_id=>42
 ,p_theme_class_id=>7
 ,p_default_label_alignment=>'RIGHT'
@@ -2738,10 +2820,14 @@ wwv_flow_api.create_plug_template(
 ,p_reference_id=>4499993862448380551
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/carousel_container
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61210880757171269)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Region t-Region--carousel #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 ' <div class="t-Region-header">',
 '  <div class="t-Region-headerItems t-Region-headerItems--title">',
@@ -2766,11 +2852,12 @@ wwv_flow_api.create_plug_template(
 '   </div>',
 ' </div>',
 '</div>'))
-,p_sub_plug_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_sub_plug_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div data-label="#SUB_REGION_TITLE#" id="SR_#SUB_REGION_ID#">',
 '  #SUB_REGION#',
 '</div>'))
 ,p_page_plug_template_name=>'Carousel Container'
+,p_internal_name=>'CAROUSEL_CONTAINER'
 ,p_plug_table_bgcolor=>'#ffffff'
 ,p_theme_id=>42
 ,p_theme_class_id=>5
@@ -2801,10 +2888,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_glv_new_row=>true
 ,p_max_fixed_grid_columns=>12
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/inline_dialog
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61214352419171272)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div id="#REGION_STATIC_ID#_parent">',
 '<div id="#REGION_STATIC_ID#"  class="t-DialogRegion #REGION_CSS_CLASSES# js-regionDialog" #REGION_ATTRIBUTES# style="display:none" title="#TITLE#">',
 '  <div class="t-DialogRegion-body js-regionDialog-body">',
@@ -2821,6 +2912,7 @@ wwv_flow_api.create_plug_template(
 '</div>',
 '</div>'))
 ,p_page_plug_template_name=>'Inline Dialog'
+,p_internal_name=>'INLINE_DIALOG'
 ,p_theme_id=>42
 ,p_theme_class_id=>24
 ,p_default_template_options=>'js-modal:js-draggable:js-resizable'
@@ -2838,10 +2930,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_has_grid_support=>true
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/buttons_container
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61215282162171272)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-ButtonRegion t-Form--floatLeft #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 '  <div class="t-ButtonRegion-wrap">',
 '    <div class="t-ButtonRegion-col t-ButtonRegion-col--left"><div class="t-ButtonRegion-buttons">#PREVIOUS##DELETE##CLOSE#</div></div>',
@@ -2854,6 +2950,7 @@ wwv_flow_api.create_plug_template(
 '  </div>',
 '</div>'))
 ,p_page_plug_template_name=>'Buttons Container'
+,p_internal_name=>'BUTTONS_CONTAINER'
 ,p_plug_table_bgcolor=>'#ffffff'
 ,p_theme_id=>42
 ,p_theme_class_id=>17
@@ -2883,10 +2980,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_glv_new_row=>true
 ,p_max_fixed_grid_columns=>12
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/collapsible
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61216081177171273)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Region t-Region--hideShow #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES#>',
 ' <div class="t-Region-header">',
 '  <div class="t-Region-headerItems  t-Region-headerItems--controls">',
@@ -2915,6 +3016,7 @@ wwv_flow_api.create_plug_template(
 ' </div>',
 '</div>'))
 ,p_page_plug_template_name=>'Collapsible'
+,p_internal_name=>'COLLAPSIBLE'
 ,p_plug_table_bgcolor=>'#ffffff'
 ,p_theme_id=>42
 ,p_theme_class_id=>1
@@ -2945,10 +3047,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_glv_new_row=>true
 ,p_max_fixed_grid_columns=>12
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/hero
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61218148443171274)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-HeroRegion #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES#>',
 '  <div class="t-HeroRegion-wrap">',
 '    <div class="t-HeroRegion-col t-HeroRegion-col--left"><span class="t-HeroRegion-icon t-Icon #ICON_CSS_CLASSES#"></span></div>',
@@ -2960,6 +3066,7 @@ wwv_flow_api.create_plug_template(
 '  </div>',
 '</div>'))
 ,p_page_plug_template_name=>'Hero'
+,p_internal_name=>'HERO'
 ,p_theme_id=>42
 ,p_theme_class_id=>22
 ,p_default_label_alignment=>'RIGHT'
@@ -2975,15 +3082,20 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/interactive_report
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61218368544171274)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# class="t-IRR-region #REGION_CSS_CLASSES#" role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 '  <h2 class="u-VisuallyHidden" id="#REGION_STATIC_ID#_heading">#TITLE#</h2>',
 '#PREVIOUS##BODY##SUB_REGIONS##NEXT#',
 '</div>'))
 ,p_page_plug_template_name=>'Interactive Report'
+,p_internal_name=>'INTERACTIVE_REPORT'
 ,p_theme_id=>42
 ,p_theme_class_id=>9
 ,p_default_label_alignment=>'RIGHT'
@@ -2991,10 +3103,14 @@ wwv_flow_api.create_plug_template(
 ,p_reference_id=>2099079838218790610
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/login
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61218620518171274)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Login-region t-Form--stretchInputs t-Form--labelsAbove #REGION_CSS_CLASSES#" id="#REGION_ID#" #REGION_ATTRIBUTES# role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 '  <div class="t-Login-header">',
 '    <span class="t-Login-logo #ICON_CSS_CLASSES#"></span>',
@@ -3012,6 +3128,7 @@ wwv_flow_api.create_plug_template(
 '  #SUB_REGIONS#',
 '</div>'))
 ,p_page_plug_template_name=>'Login'
+,p_internal_name=>'LOGIN'
 ,p_theme_id=>42
 ,p_theme_class_id=>23
 ,p_default_label_alignment=>'RIGHT'
@@ -3027,10 +3144,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/standard
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61218816313171274)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Region #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# role="group" aria-labelledby="#REGION_STATIC_ID#_heading">',
 ' <div class="t-Region-header">',
 '  <div class="t-Region-headerItems t-Region-headerItems--title">',
@@ -3055,6 +3176,7 @@ wwv_flow_api.create_plug_template(
 '</div>',
 ''))
 ,p_page_plug_template_name=>'Standard'
+,p_internal_name=>'STANDARD'
 ,p_plug_table_bgcolor=>'#ffffff'
 ,p_theme_id=>42
 ,p_theme_class_id=>8
@@ -3084,21 +3206,26 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_glv_new_row=>true
 ,p_max_fixed_grid_columns=>12
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/tabs_container
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61220900026171276)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-TabsRegion #REGION_CSS_CLASSES#" #REGION_ATTRIBUTES# id="#REGION_STATIC_ID#">',
 '  #BODY#',
 '  <div class="t-TabsRegion-items">',
 '    #SUB_REGIONS#',
 '  </div>',
 '</div>'))
-,p_sub_plug_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_sub_plug_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div data-label="#SUB_REGION_TITLE#" id="SR_#SUB_REGION_ID#">',
 '  #SUB_REGION#',
 '</div>'))
 ,p_page_plug_template_name=>'Tabs Container'
+,p_internal_name=>'TABS_CONTAINER'
 ,p_theme_id=>42
 ,p_theme_class_id=>5
 ,p_preset_template_options=>'t-TabsRegion-mod--simple'
@@ -3123,10 +3250,14 @@ wwv_flow_api.create_plug_tmpl_display_point(
 ,p_has_grid_support=>false
 ,p_glv_new_row=>true
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/title_bar
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61222122918171276)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES# class="t-BreadcrumbRegion #REGION_CSS_CLASSES#"> ',
 '  <div class="t-BreadcrumbRegion-body">',
 '    <div class="t-BreadcrumbRegion-breadcrumb">',
@@ -3139,6 +3270,7 @@ wwv_flow_api.create_plug_template(
 '  <div class="t-BreadcrumbRegion-buttons">#PREVIOUS##CLOSE##DELETE##HELP##CHANGE##EDIT##COPY##CREATE##NEXT#</div>',
 '</div>'))
 ,p_page_plug_template_name=>'Title Bar'
+,p_internal_name=>'TITLE_BAR'
 ,p_theme_id=>42
 ,p_theme_class_id=>6
 ,p_default_template_options=>'t-BreadcrumbRegion--showBreadcrumb'
@@ -3148,10 +3280,14 @@ wwv_flow_api.create_plug_template(
 ,p_reference_id=>2530016523834132090
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/region/wizard_container
+begin
 wwv_flow_api.create_plug_template(
  p_id=>wwv_flow_api.id(61222583844171276)
 ,p_layout=>'TABLE'
-,p_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Wizard #REGION_CSS_CLASSES#" id="#REGION_STATIC_ID#" #REGION_ATTRIBUTES#>',
 '  <div class="t-Wizard-header">',
 '    <h1 class="t-Wizard-title">#TITLE#</h1>',
@@ -3168,6 +3304,7 @@ wwv_flow_api.create_plug_template(
 '  </div>',
 '</div>'))
 ,p_page_plug_template_name=>'Wizard Container'
+,p_internal_name=>'WIZARD_CONTAINER'
 ,p_theme_id=>42
 ,p_theme_class_id=>8
 ,p_preset_template_options=>'t-Wizard--hideStepsXSmall'
@@ -3186,23 +3323,24 @@ wwv_flow_api.create_plug_tmpl_display_point(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/list
+prompt --application/shared_components/user_interface/templates/list/badge_list
 begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61231069897171285)
-,p_list_template_current=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_current=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-BadgeList-item #A02#">',
 '  <span class="t-BadgeList-label">#TEXT#</span>',
 '  <span class="t-BadgeList-value"><a href="#LINK#" #A03#>#A01#</a></span>',
 '</li>',
 ''))
-,p_list_template_noncurrent=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_noncurrent=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-BadgeList-item #A02#">',
 '  <span class="t-BadgeList-label">#TEXT#</span>',
 '  <span class="t-BadgeList-value"><a href="#LINK#" #A03#>#A01#</a></span>',
 '</li>',
 ''))
 ,p_list_template_name=>'Badge List'
+,p_internal_name=>'BADGE_LIST'
 ,p_theme_id=>42
 ,p_theme_class_id=>3
 ,p_default_template_options=>'t-BadgeList--responsive'
@@ -3213,14 +3351,18 @@ wwv_flow_api.create_list_template(
 ,p_a02_label=>'List item CSS Classes'
 ,p_a03_label=>'Link Attributes'
 ,p_reference_id=>2062482847268086664
-,p_list_template_comment=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_comment=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'A01: Large Number',
 'A02: List Item Classes',
 'A03: Link Attributes'))
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/cards
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61232742043171288)
-,p_list_template_current=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_current=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Cards-item #A04#">',
 '  <div class="t-Card">',
 '    <a href="#LINK#" class="t-Card-wrap">',
@@ -3233,7 +3375,7 @@ wwv_flow_api.create_list_template(
 '    </a>',
 '  </div>',
 '</li>'))
-,p_list_template_noncurrent=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_noncurrent=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Cards-item #A04#">',
 '  <div class="t-Card">',
 '    <a href="#LINK#" class="t-Card-wrap">',
@@ -3247,6 +3389,7 @@ wwv_flow_api.create_list_template(
 '  </div>',
 '</li>'))
 ,p_list_template_name=>'Cards'
+,p_internal_name=>'CARDS'
 ,p_theme_id=>42
 ,p_theme_class_id=>4
 ,p_preset_template_options=>'t-Cards--3cols:t-Cards--featured'
@@ -3258,12 +3401,17 @@ wwv_flow_api.create_list_template(
 ,p_a04_label=>'List Item CSS Classes'
 ,p_reference_id=>2885322685880632508
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/menu_bar
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61234822587171289)
 ,p_list_template_current=>'<li data-current="true" data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_noncurrent=>'<li data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_name=>'Menu Bar'
-,p_javascript_code_onload=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'MENU_BAR'
+,p_javascript_code_onload=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'var e = apex.jQuery("##PARENT_STATIC_ID#_menubar", apex.gPageContext$);',
 'if (e.hasClass("js-addActions")) {',
 '  if ( apex.actions ) {',
@@ -3295,21 +3443,26 @@ wwv_flow_api.create_list_template(
 ,p_sub_templ_noncurr_w_child=>'<li data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a>'
 ,p_reference_id=>2008709236185638887
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/navigation_bar
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61235341698171290)
-,p_list_template_current=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_current=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item is-active #A02#">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#" role="button">',
 '      <span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Button-label">#TEXT_ESC_SC#</span><span class="t-Button-badge">#A01#</span>',
 '  </a>',
 '</li>'))
-,p_list_template_noncurrent=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_noncurrent=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item #A02#">',
 '  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#LINK#" role="button">',
 '    <span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Button-label">#TEXT_ESC_SC#</span><span class="t-Button-badge">#A01#</span>',
 '  </a>',
 '</li>'))
 ,p_list_template_name=>'Navigation Bar'
+,p_internal_name=>'NAVIGATION_BAR'
 ,p_theme_id=>42
 ,p_theme_class_id=>20
 ,p_list_template_before_rows=>'<ul class="t-NavigationBar #COMPONENT_CSS_CLASSES#" id="#LIST_ID#">'
@@ -3318,12 +3471,12 @@ wwv_flow_api.create_list_template(
 ,p_after_sub_list=>'</ul></div></li>'
 ,p_sub_list_item_current=>'<li data-current="true" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#">#TEXT_ESC_SC#</a></li>'
 ,p_sub_list_item_noncurrent=>'<li data-current="false" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#">#TEXT_ESC_SC#</a></li>'
-,p_item_templ_curr_w_child=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_item_templ_curr_w_child=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item is-active #A02#">',
 '  <button class="t-Button t-Button--icon t-Button t-Button--header t-Button--navBar js-menuButton" type="button" id="#LIST_ITEM_ID#" data-menu="menu_#LIST_ITEM_ID#">',
 '      <span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Button-label">#TEXT_ESC_SC#</span><span class="t-Button-badge">#A01#</span><span class="a-Icon icon-down-arrow"></span>',
 '  </button>'))
-,p_item_templ_noncurr_w_child=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_item_templ_noncurr_w_child=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-NavigationBar-item #A02#">',
 '  <button class="t-Button t-Button--icon t-Button t-Button--header t-Button--navBar js-menuButton" type="button" id="#LIST_ITEM_ID#" data-menu="menu_#LIST_ITEM_ID#">',
 '      <span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Button-label">#TEXT_ESC_SC#</span><span class="t-Button-badge">#A01#</span><span class="a-Icon icon-down-arrow"></span>',
@@ -3334,33 +3487,47 @@ wwv_flow_api.create_list_template(
 ,p_a02_label=>'List  Item CSS Classes'
 ,p_reference_id=>2846096252961119197
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/tabs
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61235478902171290)
 ,p_list_template_current=>'<li class="t-Tabs-item is-active"><a href="#LINK#" class="t-Tabs-link"><span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Tabs-label">#TEXT#</span></a></li>'
 ,p_list_template_noncurrent=>'<li class="t-Tabs-item"><a href="#LINK#" class="t-Tabs-link"><span class="t-Icon #ICON_CSS_CLASSES#"></span><span class="t-Tabs-label">#TEXT#</span></a></li>'
 ,p_list_template_name=>'Tabs'
+,p_internal_name=>'TABS'
 ,p_theme_id=>42
 ,p_theme_class_id=>7
 ,p_list_template_before_rows=>'<ul class="t-Tabs #COMPONENT_CSS_CLASSES#">'
 ,p_list_template_after_rows=>'</ul>'
 ,p_reference_id=>3288206686691809997
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/wizard_progress
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61236322836171290)
 ,p_list_template_current=>'<li class="t-WizardSteps-step is-active" id="#LIST_ITEM_ID#"><div class="t-WizardSteps-wrap"><span class="t-WizardSteps-marker"></span><span class="t-WizardSteps-label">#TEXT# <span class="t-WizardSteps-labelState"></span></span></div></li>'
 ,p_list_template_noncurrent=>'<li class="t-WizardSteps-step" id="#LIST_ITEM_ID#"><div class="t-WizardSteps-wrap"><span class="t-WizardSteps-marker"><span class="t-Icon a-Icon icon-check"></span></span><span class="t-WizardSteps-label">#TEXT# <span class="t-WizardSteps-labelState"'
 ||'></span></span></div></li>'
 ,p_list_template_name=>'Wizard Progress'
+,p_internal_name=>'WIZARD_PROGRESS'
 ,p_javascript_code_onload=>'apex.theme.initWizardProgressBar();'
 ,p_theme_id=>42
 ,p_theme_class_id=>17
 ,p_preset_template_options=>'t-WizardSteps--displayLabels'
-,p_list_template_before_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_before_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<h2 class="u-VisuallyHidden">#CURRENT_PROGRESS#</h2>',
 '<ul class="t-WizardSteps #COMPONENT_CSS_CLASSES#" id="#LIST_ID#">'))
 ,p_list_template_after_rows=>'</ul>'
 ,p_reference_id=>2008702338707394488
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/links_list
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61236804735171291)
 ,p_list_template_current=>'<li class="t-LinksList-item is-current #A03#"><a href="#LINK#" class="t-LinksList-link" #A02#><span class="t-LinksList-icon"><span class="t-Icon #ICON_CSS_CLASSES#"></span></span><span class="t-LinksList-label">#TEXT#</span><span class="t-LinksList-b'
@@ -3368,6 +3535,7 @@ wwv_flow_api.create_list_template(
 ,p_list_template_noncurrent=>'<li class="t-LinksList-item #A03#"><a href="#LINK#" class="t-LinksList-link" #A02#><span class="t-LinksList-icon"><span class="t-Icon #ICON_CSS_CLASSES#"></span></span><span class="t-LinksList-label">#TEXT#</span><span class="t-LinksList-badge">#A01#'
 ||'</span></a></li>'
 ,p_list_template_name=>'Links List'
+,p_internal_name=>'LINKS_LIST'
 ,p_theme_id=>42
 ,p_theme_class_id=>18
 ,p_list_template_before_rows=>'<ul class="t-LinksList #COMPONENT_CSS_CLASSES#" id="#LIST_ID#">'
@@ -3387,16 +3555,21 @@ wwv_flow_api.create_list_template(
 ,p_a03_label=>'List Item CSS Classes'
 ,p_reference_id=>4070914341144059318
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/menu_popup
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61237615482171291)
-,p_list_template_current=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_current=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>',
 ''))
-,p_list_template_noncurrent=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_noncurrent=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>',
 ''))
 ,p_list_template_name=>'Menu Popup'
-,p_javascript_code_onload=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'MENU_POPUP'
+,p_javascript_code_onload=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'var e = apex.jQuery("##PARENT_STATIC_ID#_menu", apex.gPageContext$);',
 'if (e.hasClass("js-addActions")) {',
 '  if ( apex.actions ) {',
@@ -3426,9 +3599,13 @@ wwv_flow_api.create_list_template(
 ,p_a05_label=>'Shortcut'
 ,p_reference_id=>3492264004432431646
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/media_list
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61237748130171291)
-,p_list_template_current=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_current=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-MediaList-item is-active #A04#">',
 '    <a href="#LINK#" class="t-MediaList-itemWrap" #A03#>',
 '        <div class="t-MediaList-iconWrap">',
@@ -3443,7 +3620,7 @@ wwv_flow_api.create_list_template(
 '        </div>',
 '    </a>',
 '</li>'))
-,p_list_template_noncurrent=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_noncurrent=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-MediaList-item  #A04#">',
 '    <a href="#LINK#" class="t-MediaList-itemWrap" #A03#>',
 '        <div class="t-MediaList-iconWrap">',
@@ -3459,6 +3636,7 @@ wwv_flow_api.create_list_template(
 '    </a>',
 '</li>'))
 ,p_list_template_name=>'Media List'
+,p_internal_name=>'MEDIA_LIST'
 ,p_theme_id=>42
 ,p_theme_class_id=>5
 ,p_default_template_options=>'t-MediaList--showDesc:t-MediaList--showIcons'
@@ -3470,18 +3648,23 @@ wwv_flow_api.create_list_template(
 ,p_a04_label=>'List Item CSS Classes'
 ,p_reference_id=>2066548068783481421
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/side_navigation_menu
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61238608756171292)
 ,p_list_template_current=>'<li data-current="true" data-id="#A01#" data-disabled="#A02#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_noncurrent=>'<li data-id="#A01#" data-disabled="#A02#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_name=>'Side Navigation Menu'
+,p_internal_name=>'SIDE_NAVIGATION_MENU'
 ,p_javascript_file_urls=>'#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#widget.treeView#MIN#.js?v=#APEX_VERSION#'
-,p_javascript_code_onload=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_javascript_code_onload=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '$(''body'').addClass(''t-PageBody--leftNav'');',
 ''))
 ,p_theme_id=>42
 ,p_theme_class_id=>19
-,p_list_template_before_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_list_template_before_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Body-nav" id="t_Body_nav" role="navigation" aria-label="&APP_TITLE!ATTR.">',
 '<div class="t-TreeNav #COMPONENT_CSS_CLASSES#" id="t_TreeNav" data-id="#PARENT_STATIC_ID#_tree" aria-label="&APP_TITLE!ATTR."><ul style="display:none">'))
 ,p_list_template_after_rows=>'</ul></div></div>'
@@ -3498,12 +3681,17 @@ wwv_flow_api.create_list_template(
 ,p_a04_label=>'Title'
 ,p_reference_id=>2466292414354694776
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/list/top_navigation_menu
+begin
 wwv_flow_api.create_list_template(
  p_id=>wwv_flow_api.id(61238686909171292)
 ,p_list_template_current=>'<li data-current="true" data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_noncurrent=>'<li data-id="#A01#" data-disabled="#A02#" data-hide="#A03#" data-shortcut="#A05#" data-icon="#ICON_CSS_CLASSES#"><a href="#LINK#" title="#A04#">#TEXT_ESC_SC#</a></li>'
 ,p_list_template_name=>'Top Navigation Menu'
-,p_javascript_code_onload=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'TOP_NAVIGATION_MENU'
+,p_javascript_code_onload=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'var e = apex.jQuery("##PARENT_STATIC_ID#_menubar", apex.gPageContext$);',
 'if (e.hasClass("js-addActions")) {',
 '  if ( apex.actions ) {',
@@ -3541,12 +3729,13 @@ wwv_flow_api.create_list_template(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/report
+prompt --application/shared_components/user_interface/templates/report/alerts
 begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61223227439171278)
 ,p_row_template_name=>'Alerts'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'ALERTS'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Alert t-Alert--horizontal t-Alert--colorBG t-Alert--defaultIcons t-Alert--#ALERT_TYPE#" role="alert">',
 '  <div class="t-Alert-wrap">',
 '    <div class="t-Alert-icon">',
@@ -3566,7 +3755,7 @@ wwv_flow_api.create_row_template(
 '  </div>',
 '</div>'))
 ,p_row_template_before_rows=>'<div class="t-Alerts">'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</div>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'NAMED_COLUMNS'
@@ -3575,19 +3764,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3596,16 +3785,21 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2881456138952347027
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/badge_list
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61223291494171279)
 ,p_row_template_name=>'Badge List'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'BADGE_LIST'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-BadgeList-item">',
 '  <span class="t-BadgeList-label">#COLUMN_HEADER#</span>',
 '  <span class="t-BadgeList-value">#COLUMN_VALUE#</span>',
 '</li>'))
 ,p_row_template_before_rows=>'<ul class="t-BadgeList t-BadgeList--circular #COMPONENT_CSS_CLASSES#">'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</ul>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'GENERIC_COLUMNS'
@@ -3614,19 +3808,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3637,10 +3831,15 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2103197159775914759
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/cards
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61225002340171280)
 ,p_row_template_name=>'Cards'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'CARDS'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Cards-item #CARD_MODIFIERS#">',
 '  <div class="t-Card">',
 '    <a href="#CARD_LINK#" class="t-Card-wrap">',
@@ -3654,7 +3853,7 @@ wwv_flow_api.create_row_template(
 '  </div>',
 '</li>'))
 ,p_row_template_before_rows=>'<ul class="t-Cards #COMPONENT_CSS_CLASSES#" #REPORT_ATTRIBUTES# id="#REGION_STATIC_ID#_cards">'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</ul>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'NAMED_COLUMNS'
@@ -3663,19 +3862,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3685,10 +3884,15 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2973535649510699732
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/comments
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61227163741171281)
 ,p_row_template_name=>'Comments'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'COMMENTS'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Comments-item #COMMENT_MODIFIERS#">',
 '    <div class="t-Comments-icon a-MediaBlock-graphic">',
 '        <div class="t-Comments-userIcon #ICON_MODIFIER#" aria-hidden="true">#USER_ICON#</div>',
@@ -3703,7 +3907,7 @@ wwv_flow_api.create_row_template(
 '    </div>',
 '</li>'))
 ,p_row_template_before_rows=>'<ul class="t-Comments #COMPONENT_CSS_CLASSES#" #REPORT_ATTRIBUTES# id="#REGION_STATIC_ID#_report">'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</ul>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'NAMED_COLUMNS'
@@ -3712,20 +3916,20 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>',
 ''))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3735,10 +3939,15 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2611722012730764232
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/search_results
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61227496581171282)
 ,p_row_template_name=>'Search Results'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'SEARCH_RESULTS'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-SearchResults-item">',
 '    <h3 class="t-SearchResults-title"><a href="#SEARCH_LINK#">#SEARCH_TITLE#</a></h3>',
 '    <div class="t-SearchResults-info">',
@@ -3747,7 +3956,7 @@ wwv_flow_api.create_row_template(
 '    </div>',
 '  </li>'))
 ,p_row_template_condition1=>':LABEL_02 is null'
-,p_row_template2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-SearchResults-item">',
 '    <h3 class="t-SearchResults-title"><a href="#SEARCH_LINK#">#SEARCH_TITLE#</a></h3>',
 '    <div class="t-SearchResults-info">',
@@ -3757,7 +3966,7 @@ wwv_flow_api.create_row_template(
 '    </div>',
 '  </li>'))
 ,p_row_template_condition2=>':LABEL_03 is null'
-,p_row_template3=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template3=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-SearchResults-item">',
 '    <h3 class="t-SearchResults-title"><a href="#SEARCH_LINK#">#SEARCH_TITLE#</a></h3>',
 '    <div class="t-SearchResults-info">',
@@ -3768,7 +3977,7 @@ wwv_flow_api.create_row_template(
 '    </div>',
 '  </li>'))
 ,p_row_template_condition3=>':LABEL_04 is null'
-,p_row_template4=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template4=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-SearchResults-item">',
 '    <h3 class="t-SearchResults-title"><a href="#SEARCH_LINK#">#SEARCH_TITLE#</a></h3>',
 '    <div class="t-SearchResults-info">',
@@ -3779,10 +3988,10 @@ wwv_flow_api.create_row_template(
 '      <span class="t-SearchResults-misc">#LABEL_04#: #VALUE_04#</span>',
 '    </div>',
 '  </li>'))
-,p_row_template_before_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_before_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-SearchResults #COMPONENT_CSS_CLASSES#">',
 '<ul class="t-SearchResults-list">'))
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</ul>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>',
 '</div>'))
@@ -3792,19 +4001,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'NOT_CONDITIONAL'
 ,p_row_template_display_cond4=>'NOT_CONDITIONAL'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3814,17 +4023,22 @@ wwv_flow_api.create_row_template(
 ,p_translate_this_template=>'N'
 ,p_row_template_comment=>' (SELECT link_text, link_target, detail1, detail2, last_modified)'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/standard
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61227670643171282)
 ,p_row_template_name=>'Standard'
+,p_internal_name=>'STANDARD'
 ,p_row_template1=>'<td class="t-Report-cell" #ALIGNMENT# headers="#COLUMN_HEADER_NAME#">#COLUMN_VALUE#</td>'
-,p_row_template_before_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_before_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Report #COMPONENT_CSS_CLASSES#" id="report_#REGION_STATIC_ID#" #REPORT_ATTRIBUTES#>',
 '  <div class="t-Report-wrap">',
 '    <table class="t-Report-pagination" role="presentation">#TOP_PAGINATION#</table>',
 '    <div class="t-Report-tableWrap">',
 '    <table class="t-Report-report" summary="#REGION_TITLE#">'))
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '      </tbody>',
 '    </table>',
 '    </div>',
@@ -3835,7 +4049,7 @@ wwv_flow_api.create_row_template(
 ,p_row_template_type=>'GENERIC_COLUMNS'
 ,p_before_column_heading=>'<thead>'
 ,p_column_heading_template=>'<th class="t-Report-colHead" #ALIGNMENT# id="#COLUMN_HEADER_NAME#" #COLUMN_WIDTH#>#COLUMN_HEADER#</th>'
-,p_after_column_heading=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_after_column_heading=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</thead>',
 '<tbody>'))
 ,p_row_template_display_cond1=>'0'
@@ -3843,19 +4057,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3873,10 +4087,15 @@ wwv_flow_api.create_row_template_patch(
 );
 exception when others then null;
 end;
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/value_attribute_pairs_column
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61228905016171283)
 ,p_row_template_name=>'Value Attribute Pairs - Column'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'VALUE_ATTRIBUTE_PAIRS_COLUMN'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<dt class="t-AVPList-label">',
 '  #COLUMN_HEADER#',
 '</dt>',
@@ -3884,7 +4103,7 @@ wwv_flow_api.create_row_template(
 '  #COLUMN_VALUE#',
 '</dd>'))
 ,p_row_template_before_rows=>'<dl class="t-AVPList #COMPONENT_CSS_CLASSES#" #REPORT_ATTRIBUTES#>'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</dl>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'GENERIC_COLUMNS'
@@ -3893,19 +4112,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3915,10 +4134,15 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2099068636272681754
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/value_attribute_pairs_row
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61229952248171283)
 ,p_row_template_name=>'Value Attribute Pairs - Row'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'VALUE_ATTRIBUTE_PAIRS_ROW'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<dt class="t-AVPList-label">',
 '  #1#',
 '</dt>',
@@ -3926,7 +4150,7 @@ wwv_flow_api.create_row_template(
 '  #2#',
 '</dd>'))
 ,p_row_template_before_rows=>'<dl class="t-AVPList #COMPONENT_CSS_CLASSES#" #REPORT_ATTRIBUTES# id="report_#REGION_STATIC_ID#">'
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</dl>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'NAMED_COLUMNS'
@@ -3935,19 +4159,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'0'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -3957,10 +4181,15 @@ wwv_flow_api.create_row_template(
 ,p_reference_id=>2099068321678681753
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/report/timeline
+begin
 wwv_flow_api.create_row_template(
  p_id=>wwv_flow_api.id(61230835371171284)
 ,p_row_template_name=>'Timeline'
-,p_row_template1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'TIMELINE'
+,p_row_template1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Timeline-item #EVENT_MODIFIERS#" #EVENT_ATTRIBUTES#>',
 '  <div class="t-Timeline-wrap">',
 '    <div class="t-Timeline-user">',
@@ -3987,7 +4216,7 @@ wwv_flow_api.create_row_template(
 '  </div>',
 '</li>'))
 ,p_row_template_condition1=>':EVENT_LINK is null'
-,p_row_template2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<li class="t-Timeline-item #EVENT_MODIFIERS#" #EVENT_ATTRIBUTES#>',
 '  <a href="#EVENT_LINK#" class="t-Timeline-wrap">',
 '    <div class="t-Timeline-user">',
@@ -4013,10 +4242,10 @@ wwv_flow_api.create_row_template(
 '    </div>',
 '  </a>',
 '</li>'))
-,p_row_template_before_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_before_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<ul class="t-Timeline #COMPONENT_CSS_CLASSES#" #REPORT_ATTRIBUTES# id="#REGION_STATIC_ID#_timeline">',
 ''))
-,p_row_template_after_rows=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_row_template_after_rows=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</ul>',
 '<table class="t-Report-pagination" role="presentation">#PAGINATION#</table>'))
 ,p_row_template_type=>'NAMED_COLUMNS'
@@ -4025,19 +4254,19 @@ wwv_flow_api.create_row_template(
 ,p_row_template_display_cond3=>'0'
 ,p_row_template_display_cond4=>'NOT_CONDITIONAL'
 ,p_pagination_template=>'<span class="t-Report-paginationText">#TEXT#</span>'
-,p_next_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_page_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_page_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS#',
 '</a>'))
-,p_next_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_next_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--next">',
 '  #PAGINATION_NEXT_SET#<span class="a-Icon icon-right-arrow"></span>',
 '</a>'))
-,p_previous_set_template=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_previous_set_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<a href="#LINK#" class="t-Button t-Button--small t-Button--noUI t-Report-paginationLink t-Report-paginationLink--prev">',
 '  <span class="a-Icon icon-left-arrow"></span>#PAGINATION_PREVIOUS_SET#',
 '</a>'))
@@ -4048,15 +4277,16 @@ wwv_flow_api.create_row_template(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/label
+prompt --application/shared_components/user_interface/templates/label/hidden
 begin
 wwv_flow_api.create_field_template(
  p_id=>wwv_flow_api.id(61239224185171293)
 ,p_template_name=>'Hidden'
-,p_template_body1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'HIDDEN'
+,p_template_body1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Form-labelContainer t-Form-labelContainer--hiddenLabel col col-#LABEL_COLUMN_SPAN_NUMBER#">',
 '<label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label u-VisuallyHidden">'))
-,p_template_body2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template_body2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</label>',
 '</div>'))
 ,p_before_item=>'<div class="t-Form-fieldContainer t-Form-fieldContainer--hiddenLabel rel-col #ITEM_CSS_CLASSES#" id="#CURRENT_ITEM_CONTAINER_ID#">'
@@ -4071,13 +4301,18 @@ wwv_flow_api.create_field_template(
 ,p_reference_id=>2039339104148359505
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/label/optional
+begin
 wwv_flow_api.create_field_template(
  p_id=>wwv_flow_api.id(61239339071171294)
 ,p_template_name=>'Optional'
-,p_template_body1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'OPTIONAL'
+,p_template_body1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Form-labelContainer col col-#LABEL_COLUMN_SPAN_NUMBER#">',
 '<label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label">'))
-,p_template_body2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template_body2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</label>',
 '</div>',
 ''))
@@ -4093,13 +4328,18 @@ wwv_flow_api.create_field_template(
 ,p_reference_id=>2317154212072806530
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/label/optional_above
+begin
 wwv_flow_api.create_field_template(
  p_id=>wwv_flow_api.id(61239401254171294)
 ,p_template_name=>'Optional - Above'
-,p_template_body1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'OPTIONAL_ABOVE'
+,p_template_body1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Form-labelContainer">',
 '<label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label">'))
-,p_template_body2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template_body2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</label>#HELP_TEMPLATE#',
 '</div>'))
 ,p_before_item=>'<div class="t-Form-fieldContainer t-Form-fieldContainer--stacked #ITEM_CSS_CLASSES#" id="#CURRENT_ITEM_CONTAINER_ID#">'
@@ -4114,13 +4354,18 @@ wwv_flow_api.create_field_template(
 ,p_reference_id=>3030114864004968404
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/label/required
+begin
 wwv_flow_api.create_field_template(
  p_id=>wwv_flow_api.id(61239491701171294)
 ,p_template_name=>'Required'
-,p_template_body1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'REQUIRED'
+,p_template_body1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Form-labelContainer col col-#LABEL_COLUMN_SPAN_NUMBER#">',
 '  <label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label">'))
-,p_template_body2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template_body2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 ' <span class="u-VisuallyHidden">(#VALUE_REQUIRED#)</span></label><span class="t-Form-required"><span class="a-Icon icon-asterisk"></span></span>',
 '</div>'))
 ,p_before_item=>'<div class="t-Form-fieldContainer rel-col #ITEM_CSS_CLASSES#" id="#CURRENT_ITEM_CONTAINER_ID#">'
@@ -4135,13 +4380,18 @@ wwv_flow_api.create_field_template(
 ,p_reference_id=>2525313812251712801
 ,p_translate_this_template=>'N'
 );
+end;
+/
+prompt --application/shared_components/user_interface/templates/label/required_above
+begin
 wwv_flow_api.create_field_template(
  p_id=>wwv_flow_api.id(61239587839171294)
 ,p_template_name=>'Required - Above'
-,p_template_body1=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'REQUIRED_ABOVE'
+,p_template_body1=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-Form-labelContainer">',
 '  <label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label">'))
-,p_template_body2=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_template_body2=>wwv_flow_string.join(wwv_flow_t_varchar2(
 ' <span class="u-VisuallyHidden">(#VALUE_REQUIRED#)</span></label><span class="t-Form-required"><span class="a-Icon icon-asterisk"></span></span> #HELP_TEMPLATE#',
 '</div>'))
 ,p_before_item=>'<div class="t-Form-fieldContainer t-Form-fieldContainer--stacked #ITEM_CSS_CLASSES#" id="#CURRENT_ITEM_CONTAINER_ID#">'
@@ -4158,11 +4408,12 @@ wwv_flow_api.create_field_template(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/breadcrumb
+prompt --application/shared_components/user_interface/templates/breadcrumb/breadcrumb
 begin
 wwv_flow_api.create_menu_template(
  p_id=>wwv_flow_api.id(61240372526171296)
 ,p_name=>'Breadcrumb'
+,p_internal_name=>'BREADCRUMB'
 ,p_before_first=>'<ul class="t-Breadcrumb #COMPONENT_CSS_CLASSES#">'
 ,p_current_page_option=>'<li class="t-Breadcrumb-item is-active"><span class="t-Breadcrumb-label">#NAME#</span></li>'
 ,p_non_current_page_option=>'<li class="t-Breadcrumb-item"><a href="#LINK#" class="t-Breadcrumb-label">#NAME#</a></li>'
@@ -4182,7 +4433,7 @@ wwv_flow_api.create_popup_lov_template(
  p_id=>wwv_flow_api.id(61240555824171300)
 ,p_page_name=>'winlov'
 ,p_page_title=>'Search Dialog'
-,p_page_html_head=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_page_html_head=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<!DOCTYPE html>',
 '<html lang="&BROWSER_LANGUAGE.">',
 '<head>',
@@ -4224,21 +4475,22 @@ wwv_flow_api.create_popup_lov_template(
 );
 end;
 /
-prompt --application/shared_components/user_interface/templates/calendar
+prompt --application/shared_components/user_interface/templates/calendar/calendar
 begin
 wwv_flow_api.create_calendar_template(
  p_id=>wwv_flow_api.id(61240411827171298)
 ,p_cal_template_name=>'Calendar'
-,p_day_of_week_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_internal_name=>'CALENDAR'
+,p_day_of_week_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<th id="#DY#" scope="col" class="t-ClassicCalendar-dayColumn">',
 '  <span class="visible-md visible-lg">#IDAY#</span>',
 '  <span class="hidden-md hidden-lg">#IDY#</span>',
 '</th>'))
-,p_month_title_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_month_title_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-ClassicCalendar">',
 '<h1 class="t-ClassicCalendar-title">#IMONTH# #YYYY#</h1>'))
 ,p_month_open_format=>'<table class="t-ClassicCalendar-calendar" cellpadding="0" cellspacing="0" border="0" summary="#IMONTH# #YYYY#">'
-,p_month_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_month_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</table>',
 '</div>',
 ''))
@@ -4257,16 +4509,16 @@ wwv_flow_api.create_calendar_template(
 ,p_daily_title_format=>'<table cellspacing="0" cellpadding="0" border="0" summary="" class="t1DayCalendarHolder"> <tr> <td class="t1MonthTitle">#IMONTH# #DD#, #YYYY#</td> </tr> <tr> <td>'
 ,p_daily_open_format=>'<tr>'
 ,p_daily_close_format=>'</tr>'
-,p_weekly_title_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_weekly_title_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-ClassicCalendar t-ClassicCalendar--weekly">',
 '<h1 class="t-ClassicCalendar-title">#WTITLE#</h1>'))
-,p_weekly_day_of_week_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_weekly_day_of_week_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<th scope="col" class="t-ClassicCalendar-dayColumn" id="#DY#">',
 '  <span class="visible-md visible-lg">#DD# #IDAY#</span>',
 '  <span class="hidden-md hidden-lg">#DD# #IDY#</span>',
 '</th>'))
 ,p_weekly_month_open_format=>'<table border="0" cellpadding="0" cellspacing="0" summary="#CALENDAR_TITLE# #START_DL# - #END_DL#" class="t-ClassicCalendar-calendar">'
-,p_weekly_month_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_weekly_month_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</table>',
 '</div>'))
 ,p_weekly_day_open_format=>'<td class="t-ClassicCalendar-day" headers="#DY#"><div class="t-ClassicCalendar-dayEvents">'
@@ -4280,11 +4532,11 @@ wwv_flow_api.create_calendar_template(
 ,p_weekly_hour_open_format=>'<tr>'
 ,p_weekly_hour_close_format=>'</tr>'
 ,p_daily_day_of_week_format=>'<th scope="col" id="#DY#" class="t-ClassicCalendar-dayColumn">#IDAY#</th>'
-,p_daily_month_title_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_daily_month_title_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-ClassicCalendar t-ClassicCalendar--daily">',
 '<h1 class="t-ClassicCalendar-title">#IMONTH# #DD#, #YYYY#</h1>'))
 ,p_daily_month_open_format=>'<table border="0" cellpadding="0" cellspacing="0" summary="#CALENDAR_TITLE# #START_DL#" class="t-ClassicCalendar-calendar">'
-,p_daily_month_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_daily_month_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</table>',
 '</div>'))
 ,p_daily_day_open_format=>'<td class="t-ClassicCalendar-day" headers="#DY#"><div class="t-ClassicCalendar-dayEvents">'
@@ -4295,12 +4547,12 @@ wwv_flow_api.create_calendar_template(
 ,p_daily_time_title_format=>'#TIME#'
 ,p_daily_hour_open_format=>'<tr>'
 ,p_daily_hour_close_format=>'</tr>'
-,p_cust_month_title_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_month_title_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="uCal">',
 '<h1 class="uMonth">#IMONTH# <span>#YYYY#</span></h1>'))
 ,p_cust_day_of_week_format=>'<th scope="col" class="uCalDayCol" id="#DY#">#IDAY#</th>'
 ,p_cust_month_open_format=>'<table class="uCal" cellpadding="0" cellspacing="0" border="0" summary="#IMONTH# #YYYY#">'
-,p_cust_month_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_month_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</table>',
 '<div class="uCalFooter"></div>',
 '</div>',
@@ -4316,7 +4568,7 @@ wwv_flow_api.create_calendar_template(
 ,p_cust_nonday_close_format=>'</td>'
 ,p_cust_weekend_title_format=>'<span class="uDayTitle weekendday">#DD#</span>'
 ,p_cust_weekend_open_format=>'<td class="uDay" headers="#DY#">'
-,p_cust_weekend_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_weekend_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="uDayData">#DATA#</span>',
 '</td>'))
 ,p_cust_hour_open_format=>'<tr>'
@@ -4324,16 +4576,16 @@ wwv_flow_api.create_calendar_template(
 ,p_cust_time_title_format=>'#TIME#'
 ,p_cust_time_open_format=>'<th scope="row" class="uCalHour" id="#TIME#">'
 ,p_cust_time_close_format=>'</th>'
-,p_cust_wk_month_title_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_wk_month_title_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="uCal uCalWeekly">',
 '<h1 class="uMonth">#WTITLE#</h1>'))
-,p_cust_wk_day_of_week_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_wk_day_of_week_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<th scope="col" class="uCalDayCol" id="#DY#">',
 '  <span class="visible-desktop">#DD# #IDAY#</span>',
 '  <span class="hidden-desktop">#DD# <em>#IDY#</em></span>',
 '</th>'))
 ,p_cust_wk_month_open_format=>'<table border="0" cellpadding="0" cellspacing="0" summary="#CALENDAR_TITLE# #START_DL# - #END_DL#" class="uCal">'
-,p_cust_wk_month_close_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_cust_wk_month_close_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '</table>',
 '<div class="uCalFooter"></div>',
 '</div>'))
@@ -4345,22 +4597,22 @@ wwv_flow_api.create_calendar_template(
 ,p_cust_wk_today_open_format=>'<td class="uDay today" headers="#DY#"><div class="uDayData">'
 ,p_cust_wk_weekend_open_format=>'<td class="uDay weekend" headers="#DY#"><div class="uDayData">'
 ,p_cust_wk_weekend_close_format=>'</div></td>'
-,p_agenda_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_agenda_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<div class="t-ClassicCalendar t-ClassicCalendar--list">',
 '  <div class="t-ClassicCalendar-title">#IMONTH# #YYYY#</div>',
 '  <ul class="t-ClassicCalendar-list">',
 '    #DAYS#',
 '  </ul>',
 '</div>'))
-,p_agenda_past_day_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_agenda_past_day_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-ClassicCalendar-listTitle is-past">',
 '    <span class="t-ClassicCalendar-listDayTitle">#IDAY#</span><span class="t-ClassicCalendar-listDayDate">#IMONTH# #DD#</span>',
 '  </li>'))
-,p_agenda_today_day_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_agenda_today_day_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-ClassicCalendar-listTitle is-today">',
 '    <span class="t-ClassicCalendar-listDayTitle">#IDAY#</span><span class="t-ClassicCalendar-listDayDate">#IMONTH# #DD#</span>',
 '  </li>'))
-,p_agenda_future_day_format=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_agenda_future_day_format=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '  <li class="t-ClassicCalendar-listTitle is-future">',
 '    <span class="t-ClassicCalendar-listDayTitle">#IDAY#</span><span class="t-ClassicCalendar-listDayDate">#IMONTH# #DD#</span>',
 '  </li>'))
@@ -4381,6 +4633,7 @@ wwv_flow_api.create_theme(
  p_id=>wwv_flow_api.id(61240908202171307)
 ,p_theme_id=>42
 ,p_theme_name=>'Universal Theme'
+,p_theme_internal_name=>'UNIVERSAL_THEME'
 ,p_ui_type_name=>'DESKTOP'
 ,p_navigation_type=>'L'
 ,p_nav_bar_type=>'LIST'
@@ -4422,12 +4675,12 @@ wwv_flow_api.create_theme(
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_theme_file_prefix(42),'#IMAGE_PREFIX#themes/theme_42/1.0/')
 ,p_files_version=>62
 ,p_icon_library=>'FONTAWESOME'
-,p_javascript_file_urls=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
-'#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#widget.regionDisplaySelector#MIN#.js?v=#APEX_VERSION#',
+,p_javascript_file_urls=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#widget.apexTabs#MIN#.js?v=#APEX_VERSION#',
 '#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#widget.stickyWidget#MIN#.js?v=#APEX_VERSION#',
 '#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#widget.stickyTableHeader#MIN#.js?v=#APEX_VERSION#',
 '#IMAGE_PREFIX#libraries/apex/#MIN_DIRECTORY#tooltipManager#MIN#.js?v=#APEX_VERSION#',
-'#IMAGE_PREFIX#libraries/hammer/2.0.3/hammer#MIN#.js?v=#APEX_VERSION#',
+'#HAMMERJS_URL#',
 '#THEME_IMAGES#js/modernizr-custom#MIN#.js?v=#APEX_VERSION#',
 '#IMAGE_PREFIX#plugins/com.oracle.apex.carousel/1.0/com.oracle.apex.carousel#MIN#.js?v=#APEX_VERSION#',
 '#THEME_IMAGES#js/theme42#MIN#.js?v=#APEX_VERSION#'))
@@ -4443,6 +4696,8 @@ wwv_flow_api.create_theme_style(
 ,p_name=>'Vista'
 ,p_css_file_urls=>'#THEME_IMAGES#css/Vista#MIN#.css?v=#APEX_VERSION#'
 ,p_is_current=>false
+,p_is_public=>false
+,p_is_accessible=>false
 ,p_theme_roller_read_only=>true
 ,p_reference_id=>4007676303523989775
 );
@@ -4451,6 +4706,8 @@ wwv_flow_api.create_theme_style(
 ,p_theme_id=>42
 ,p_name=>'Vita'
 ,p_is_current=>true
+,p_is_public=>false
+,p_is_accessible=>false
 ,p_theme_roller_input_file_urls=>'#THEME_IMAGES#less/theme/Vita.less'
 ,p_theme_roller_output_file_url=>'#THEME_IMAGES#css/Vita#MIN#.css?v=#APEX_VERSION#'
 ,p_theme_roller_read_only=>true
@@ -4461,6 +4718,8 @@ wwv_flow_api.create_theme_style(
 ,p_theme_id=>42
 ,p_name=>'Vita - Slate'
 ,p_is_current=>false
+,p_is_public=>false
+,p_is_accessible=>false
 ,p_theme_roller_input_file_urls=>'#THEME_IMAGES#less/theme/Vita-Slate.less'
 ,p_theme_roller_config=>'{"customCSS":"","vars":{"@g_Accent-BG":"#505f6d","@g_Accent-OG":"#ececec","@g_Body-Title-BG":"#dee1e4","@l_Link-Base":"#337ac0","@g_Body-BG":"#f5f5f5"}}'
 ,p_theme_roller_output_file_url=>'#THEME_IMAGES#css/Vita-Slate#MIN#.css?v=#APEX_VERSION#'
@@ -7853,12 +8112,7 @@ begin
 null;
 end;
 /
-prompt --application/shared_components/user_interface/shortcuts
-begin
-null;
-end;
-/
-prompt --application/shared_components/security/authentications
+prompt --application/shared_components/security/authentications/no_authentication
 begin
 wwv_flow_api.create_authentication(
  p_id=>wwv_flow_api.id(61245255969171349)
@@ -7867,6 +8121,10 @@ wwv_flow_api.create_authentication(
 ,p_use_secure_cookie_yn=>'N'
 ,p_ras_mode=>0
 );
+end;
+/
+prompt --application/shared_components/security/authentications/apex_accounts
+begin
 wwv_flow_api.create_authentication(
  p_id=>wwv_flow_api.id(61418100289976657)
 ,p_name=>'APEX Accounts'
@@ -7874,11 +8132,6 @@ wwv_flow_api.create_authentication(
 ,p_use_secure_cookie_yn=>'N'
 ,p_ras_mode=>0
 );
-end;
-/
-prompt --application/ui_types
-begin
-null;
 end;
 /
 prompt --application/shared_components/plugins/process_type/com_strack_software_filter_uploaded_data
@@ -7890,10 +8143,11 @@ wwv_flow_api.create_plugin(
 ,p_display_name=>'Filter Uploaded Data'
 ,p_supported_ui_types=>'DESKTOP:JQM_SMARTPHONE'
 ,p_image_prefix => nvl(wwv_flow_application_install.get_static_plugin_file_prefix('PROCESS TYPE','COM.STRACK-SOFTWARE.FILTER_UPLOADED_DATA'),'')
+,p_api_version=>1
 ,p_execution_function=>'import_filter_plugin.Filter_Upload'
 ,p_substitute_attributes=>true
 ,p_subscribe_plugin_settings=>true
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Plugin for filtering uploaded data.',
 '',
 'If you get an "ORA-06502: PL/SQL: numeric or value error: character string buffer too small" error',
@@ -7946,7 +8200,7 @@ wwv_flow_api.create_plugin(
 '''File name is empty.'', ''Line delimiter not found.'', ''Separator not found in first line.''.',
 'the messages can be translated via enties in the Dynamic Translations Lists'))
 ,p_version_identifier=>'1.0'
-,p_plugin_comment=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_plugin_comment=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'The package IMPORT_FILTER_PLUGIN has to be installed in the application schema. ',
 'execute the file filter_uploaded_data_plsql_code.sql to install the required database objects.',
 'You can add the file to the installation script of you application.',
@@ -8015,7 +8269,7 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>false
 ,p_is_translatable=>false
 ,p_examples=>'PXX_BAD_ROWS'
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Enter the page item to receive the bad rows. ',
 'You can type in the name or pick from the list of available items.',
 'When the Plugin is processed, rows that do not contain the proper formating will be removed ',
@@ -8056,7 +8310,7 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>false
 ,p_default_value=>'Y'
 ,p_is_translatable=>false
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'Set this attribute to ''Yes'' when a Success Message should be displayed.',
 'The Message is of the form "Filtered uploaded data. Found %0 good rows and %1 bad rows." and is displayed, when a page branch with the option ''include process success message '' is followed.'))
 );
@@ -8110,10 +8364,13 @@ wwv_flow_api.create_user_interface(
 ,p_theme_id=>42
 ,p_home_url=>'f?p=&APP_ID.:1:&SESSION.'
 ,p_login_url=>'f?p=&APP_ID.:LOGIN_DESKTOP:&SESSION.'
+,p_theme_style_by_user_pref=>false
 ,p_navigation_list_id=>wwv_flow_api.id(61202654715171248)
 ,p_navigation_list_position=>'SIDE'
 ,p_navigation_list_template_id=>wwv_flow_api.id(61238608756171292)
 ,p_nav_list_template_options=>'#DEFAULT#'
+,p_include_legacy_javascript=>'18'
+,p_include_jquery_migrate=>true
 ,p_nav_bar_type=>'LIST'
 ,p_nav_bar_list_id=>wwv_flow_api.id(61244973688171324)
 ,p_nav_bar_list_template_id=>wwv_flow_api.id(61235341698171290)
@@ -8132,17 +8389,11 @@ wwv_flow_api.create_page(
  p_id=>1
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Data Upload Filter Plugin Demo'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Employees'
-,p_step_sub_title=>'Employees'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
-,p_first_item=>'NO_FIRST_ITEM'
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'ON'
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
-,p_page_is_public_y_n=>'N'
-,p_cache_mode=>'NOCACHE'
-,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227232615'
@@ -8154,10 +8405,10 @@ wwv_flow_api.create_page_plug(
 ,p_region_template_options=>'#DEFAULT#'
 ,p_plug_template=>wwv_flow_api.id(61218368544171274)
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_new_grid_column=>false
 ,p_plug_display_point=>'BODY'
-,p_plug_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_query_type=>'SQL'
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select ',
 '    A."EMPLOYEE_ID",',
 '    A."LAST_NAME",',
@@ -8175,7 +8426,6 @@ wwv_flow_api.create_page_plug(
 'left outer join "DEPARTMENTS" D on A."DEPARTMENT_ID" = D."DEPARTMENT_ID"',
 ''))
 ,p_plug_source_type=>'NATIVE_IR'
-,p_plug_query_row_template=>1
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 );
 wwv_flow_api.create_worksheet(
@@ -8313,9 +8563,7 @@ wwv_flow_api.create_worksheet_rpt(
 ,p_report_alias=>'303705'
 ,p_status=>'PUBLIC'
 ,p_is_default=>'Y'
-,p_display_rows=>50
 ,p_report_columns=>'EMPLOYEE_ID:FIRST_NAME:LAST_NAME:EMAIL:PHONE_NUMBER:HIRE_DATE:JOB_ID:SALARY:COMMISSION_PCT:DEPARTMENT_ID:MANAGER_ID:'
-,p_flashback_enabled=>'N'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(61900633127774482)
@@ -8325,10 +8573,8 @@ wwv_flow_api.create_page_plug(
 ,p_escape_on_http_output=>'Y'
 ,p_plug_template=>wwv_flow_api.id(61218148443171274)
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_plug_source=>'<p>Enable users to filter bad formated rows from uploaded data in your applications with a process plug-in</p>'
-,p_plug_query_row_template=>1
 ,p_plug_query_num_rows=>15
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
@@ -8341,12 +8587,10 @@ wwv_flow_api.create_page_plug(
 ,p_escape_on_http_output=>'Y'
 ,p_plug_template=>wwv_flow_api.id(61210757455171269)
 ,p_plug_display_sequence=>5
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<p>This application demonstrates using a process plug-in in context of Data Loading  to allow end users to filter upload data.</p>',
 '<p> Click on the <b>Load Employees</b> button to get started.</p>'))
-,p_plug_query_row_template=>1
 ,p_plug_query_num_rows=>15
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
@@ -8386,7 +8630,7 @@ wwv_flow_api.create_page_process(
 ,p_process_point=>'AFTER_SUBMIT'
 ,p_process_type=>'NATIVE_PLSQL'
 ,p_process_name=>'Reset Data'
-,p_process_sql_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'delete from EMPLOYEES_IMP;',
 'Insert into EMPLOYEES_IMP (EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY,COMMISSION_PCT,MANAGER_ID,DEPARTMENT_ID) values (100,''Steven'',''King'',''SKING'',''515.123.4567'',to_date(''17.06.87 00:00:00'',''DD.MM.RR HH24:MI:SS''),''AD_'
 ||'PRES'',24000,null,null,90);',
@@ -8413,11 +8657,11 @@ wwv_flow_api.create_page(
  p_id=>2
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Data Load Source'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Data Load Source'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
-,p_first_item=>'NO_FIRST_ITEM'
-,p_javascript_code=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'ON'
+,p_javascript_code=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'function set_item()',
 '{',
 '$x(''P2_COPY_PASTE'').value= $v(''P2_SAMPLE_DATA'');',
@@ -8425,11 +8669,6 @@ wwv_flow_api.create_page(
 '$s(''P2_FIRST_ROW'', ''Y'');',
 '}'))
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
-,p_page_is_public_y_n=>'N'
-,p_cache_mode=>'NOCACHE'
-,p_cache_timeout_seconds=>21600
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227233744'
@@ -8439,13 +8678,11 @@ wwv_flow_api.create_page_plug(
 ,p_plug_name=>'Data Load Process Train'
 ,p_component_template_options=>'t-WizardSteps--displayLabels'
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_list_id=>wwv_flow_api.id(61645094510593317)
 ,p_plug_source_type=>'NATIVE_LIST'
 ,p_list_template_id=>wwv_flow_api.id(61236322836171290)
 ,p_translate_title=>'N'
-,p_plug_query_row_template=>1
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(61647794700593328)
@@ -8454,9 +8691,7 @@ wwv_flow_api.create_page_plug(
 ,p_region_attributes=>'style="width:100%;max-width:none;"'
 ,p_plug_template=>wwv_flow_api.id(61218816313171274)
 ,p_plug_display_sequence=>20
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_query_row_template=>1
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'TEXT'
 ,p_attribute_03=>'Y'
@@ -8468,9 +8703,7 @@ wwv_flow_api.create_page_plug(
 ,p_region_attributes=>'style="width:100%;max-width:none;"'
 ,p_plug_template=>wwv_flow_api.id(61218816313171274)
 ,p_plug_display_sequence=>30
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_query_row_template=>1
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'TEXT'
 ,p_attribute_03=>'Y'
@@ -8482,9 +8715,8 @@ wwv_flow_api.create_page_plug(
 ,p_escape_on_http_output=>'Y'
 ,p_plug_template=>wwv_flow_api.id(61210757455171269)
 ,p_plug_display_sequence=>15
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<p>Choose the <b>Import From</b> of "Copy and Paste", input <b>Separator</b> as "," and ensure the <b>First Row has Column Names</b> is checked.</br>',
 ' <b>',
 '<a href="javascript:set_item();"> Click here </b></a> to copy and paste, or select the text below and paste it into the <b>Copy and Paste Delimited Data</b> section. <br> Some rows have a wrong seperator, the plug-in will filter this rows.</br>',
@@ -8500,7 +8732,6 @@ wwv_flow_api.create_page_plug(
 '"205","Shelley","Higgins","SHIGGINS","515.123.8080","07-JUN-94","AC_MGR","$12,000.00","","NKOCHHAR","Accounting"</br>',
 '"206","William","Gietz","WGIETZ","515.123.8181","07-JUN-94","AC_ACCOUNT","$8,300.00","","SHIGGINS","Accounting"</br>',
 '</br>'))
-,p_plug_query_row_template=>1
 ,p_plug_query_num_rows=>15
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
@@ -8574,7 +8805,8 @@ wwv_flow_api.create_page_item(
 ,p_item_template_options=>'#DEFAULT#'
 ,p_escape_on_http_input=>'Y'
 ,p_help_text=>'Name of the file to upload'
-,p_attribute_01=>'WWV_FLOW_FILES'
+,p_attribute_01=>'APEX_APPLICATION_TEMP_FILES'
+,p_attribute_09=>'REQUEST'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(61650797385593341)
@@ -8718,7 +8950,7 @@ wwv_flow_api.create_page_item(
 ,p_item_plug_id=>wwv_flow_api.id(61656057237593350)
 ,p_item_default=>'$'
 ,p_prompt=>'Currency Symbol'
-,p_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select value',
 '  from nls_session_parameters',
 ' where parameter = ''NLS_CURRENCY'''))
@@ -8755,7 +8987,7 @@ wwv_flow_api.create_page_item(
 ,p_field_template=>wwv_flow_api.id(61239339071171294)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_escape_on_http_input=>'Y'
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<p>A group separator is a character that separates integer groups, for example to show thousands and millions.</p>',
 '<p>Any character can be the group separator. The character specified must be single-byte, and the group separator must be different from any other decimal character. The character can be a space, but cannot be a numeric character or any of the follow'
 ||'ing:</p>',
@@ -8787,7 +9019,7 @@ wwv_flow_api.create_page_item(
 ,p_field_template=>wwv_flow_api.id(61239339071171294)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_escape_on_http_input=>'Y'
-,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_help_text=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<p>The decimal character separates the integer and decimal parts of a number.</p>',
 '<p> Any character can be the decimal character. The character specified must be single-byte, and the decimal character must be different from group separator. The character can be a space, but cannot be any numeric character or any of the following c'
 ||'haracters:</p>',
@@ -8808,7 +9040,7 @@ wwv_flow_api.create_page_item(
 ,p_item_sequence=>70
 ,p_item_plug_id=>wwv_flow_api.id(61920595832999104)
 ,p_use_cache_before_default=>'NO'
-,p_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '"Employee Id","First Name","Last Name","Email","Phone Number","Hire Date","Job Id","Salary","Commission Pct","Manager","Department"',
 '"100","Steven","King","SKING","515.123.4567","17-JUN-87","AD_PRES","$24,000.00","","","Executive"',
 '"101","Neena","Kochhar","NKOCHHAR","515.123.4568","21-SEP-89","AD_VP","$17,000.00","","SKING","Executive"',
@@ -8837,7 +9069,6 @@ wwv_flow_api.create_page_validation(
 ,p_validation=>'P2_FILE_NAME'
 ,p_validation_type=>'ITEM_NOT_NULL'
 ,p_error_message=>'#LABEL# must have some value.'
-,p_always_execute=>'N'
 ,p_validation_condition=>'P2_IMPORT_FROM'
 ,p_validation_condition2=>'UPLOAD'
 ,p_validation_condition_type=>'VAL_OF_ITEM_IN_COND_EQ_COND2'
@@ -8851,6 +9082,7 @@ wwv_flow_api.create_page_da_event(
 ,p_event_sequence=>10
 ,p_triggering_element_type=>'ITEM'
 ,p_triggering_element=>'P2_IMPORT_FROM'
+,p_condition_element=>'P2_IMPORT_FROM'
 ,p_triggering_condition_type=>'EQUALS'
 ,p_triggering_expression=>'PASTE'
 ,p_bind_type=>'bind'
@@ -8886,6 +9118,7 @@ wwv_flow_api.create_page_da_event(
 ,p_event_sequence=>20
 ,p_triggering_element_type=>'ITEM'
 ,p_triggering_element=>'P2_IMPORT_FROM'
+,p_condition_element=>'P2_IMPORT_FROM'
 ,p_triggering_condition_type=>'EQUALS'
 ,p_triggering_expression=>'UPLOAD'
 ,p_bind_type=>'bind'
@@ -8960,19 +9193,15 @@ wwv_flow_api.create_page(
  p_id=>3
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Data / Table Mapping'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Data / Table Mapping'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
-,p_first_item=>'NO_FIRST_ITEM'
-,p_html_page_header=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'ON'
+,p_html_page_header=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '<style>',
 '  .rc-content-main {height: 400px; overflow: auto !important;}',
 '</style> '))
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
-,p_page_is_public_y_n=>'N'
-,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227183646'
@@ -8982,13 +9211,11 @@ wwv_flow_api.create_page_plug(
 ,p_plug_name=>'Data Load Process Train'
 ,p_component_template_options=>'t-WizardSteps--displayLabels'
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_list_id=>wwv_flow_api.id(61645094510593317)
 ,p_plug_source_type=>'NATIVE_LIST'
 ,p_list_template_id=>wwv_flow_api.id(61236322836171290)
 ,p_translate_title=>'N'
-,p_plug_query_row_template=>1
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(61663500021593364)
@@ -8997,10 +9224,8 @@ wwv_flow_api.create_page_plug(
 ,p_region_attributes=>'style="width:100%;max-width:none;"'
 ,p_plug_template=>wwv_flow_api.id(61218816313171274)
 ,p_plug_display_sequence=>20
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
 ,p_plug_source_type=>'NATIVE_DATA_UPLOAD_COLUMN_MAPPING'
-,p_plug_query_row_template=>1
 ,p_attribute_01=>wwv_flow_api.id(61644179059593286)
 );
 wwv_flow_api.create_page_plug(
@@ -9010,9 +9235,7 @@ wwv_flow_api.create_page_plug(
 ,p_escape_on_http_output=>'Y'
 ,p_plug_template=>wwv_flow_api.id(61218816313171274)
 ,p_plug_display_sequence=>15
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_query_row_template=>1
 ,p_plug_query_num_rows=>15
 ,p_plug_display_condition_type=>'ITEM_IS_NOT_NULL'
 ,p_plug_display_when_condition=>'P3_BAD_ROWS'
@@ -9069,7 +9292,7 @@ wwv_flow_api.create_page_branch(
 ,p_branch_when_button_id=>wwv_flow_api.id(61664623444593365)
 ,p_branch_sequence=>10
 ,p_branch_condition_type=>'FUNCTION_BODY'
-,p_branch_condition=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_branch_condition=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '                   begin',
 '                            for c1 in (select skip_validation',
 '                                      from apex_appl_load_tables',
@@ -9089,7 +9312,7 @@ wwv_flow_api.create_page_branch(
 ,p_branch_when_button_id=>wwv_flow_api.id(61664623444593365)
 ,p_branch_sequence=>20
 ,p_branch_condition_type=>'FUNCTION_BODY'
-,p_branch_condition=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_branch_condition=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '                   begin',
 '                            for c1 in (select skip_validation',
 '                                      from apex_appl_load_tables',
@@ -9137,15 +9360,11 @@ wwv_flow_api.create_page(
  p_id=>4
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Data Validation'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Data Validation'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
-,p_first_item=>'NO_FIRST_ITEM'
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'ON'
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
-,p_page_is_public_y_n=>'N'
-,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227183702'
@@ -9155,24 +9374,23 @@ wwv_flow_api.create_page_plug(
 ,p_plug_name=>'Data Load Process Train'
 ,p_component_template_options=>'t-WizardSteps--displayLabels'
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_list_id=>wwv_flow_api.id(61645094510593317)
 ,p_plug_source_type=>'NATIVE_LIST'
 ,p_list_template_id=>wwv_flow_api.id(61236322836171290)
 ,p_translate_title=>'N'
-,p_plug_query_row_template=>1
 );
 wwv_flow_api.create_report_region(
  p_id=>wwv_flow_api.id(61667073754593367)
 ,p_name=>'Data Validation'
 ,p_template=>wwv_flow_api.id(61218816313171274)
 ,p_display_sequence=>20
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
 ,p_region_attributes=>'style="width:100%;max-width:none;" '
 ,p_display_point=>'BODY'
-,p_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_source_type=>'NATIVE_SQL_REPORT'
+,p_query_type=>'SQL'
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select n001 as row_num,',
 '       c049 as action,',
 '       c001, c002, c003,',
@@ -9194,10 +9412,7 @@ wwv_flow_api.create_report_region(
 ' where collection_name = ''LOAD_CONTENT''',
 '   and c049 in (''INSERT'',''UPDATE'', ''FAILED'')',
 ' order by seq_id'))
-,p_source_type=>'NATIVE_SQL_REPORT'
-,p_ajax_enabled=>'N'
-,p_query_row_template=>1
-,p_query_headings=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_query_headings=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'declare  ',
 '    l_string varchar(32667);',
 'begin',
@@ -9571,15 +9786,11 @@ wwv_flow_api.create_page(
  p_id=>5
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Data Load Results'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Data Load Results'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
-,p_first_item=>'NO_FIRST_ITEM'
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'ON'
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
-,p_page_is_public_y_n=>'N'
-,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227183718'
@@ -9589,13 +9800,11 @@ wwv_flow_api.create_page_plug(
 ,p_plug_name=>'Data Load Process Train'
 ,p_component_template_options=>'t-WizardSteps--displayLabels'
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_list_id=>wwv_flow_api.id(61645094510593317)
 ,p_plug_source_type=>'NATIVE_LIST'
 ,p_list_template_id=>wwv_flow_api.id(61236322836171290)
 ,p_translate_title=>'N'
-,p_plug_query_row_template=>1
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(61688981103593396)
@@ -9604,9 +9813,7 @@ wwv_flow_api.create_page_plug(
 ,p_region_attributes=>'style="width:100%;max-width:none;"'
 ,p_plug_template=>wwv_flow_api.id(61218816313171274)
 ,p_plug_display_sequence=>20
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_query_row_template=>1
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'TEXT'
 ,p_attribute_03=>'Y'
@@ -9616,11 +9823,12 @@ wwv_flow_api.create_report_region(
 ,p_name=>'Failed Records'
 ,p_template=>wwv_flow_api.id(61218816313171274)
 ,p_display_sequence=>20
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
 ,p_region_attributes=>'style="width:100%;max-width:none;" '
 ,p_display_point=>'BODY'
-,p_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_source_type=>'NATIVE_SQL_REPORT'
+,p_query_type=>'SQL'
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select n001 as row_num,',
 '       c049 as action,',
 '       c048 as error,',
@@ -9643,11 +9851,9 @@ wwv_flow_api.create_report_region(
 ' where collection_name = ''LOAD_CONTENT''',
 '   and c047 in (''FAILED'') ',
 ' order by seq_id'))
-,p_source_type=>'NATIVE_SQL_REPORT'
 ,p_display_when_condition=>'P5_ERROR_COUNT'
 ,p_display_condition_type=>'ITEM_NOT_NULL_OR_ZERO'
-,p_query_row_template=>1
-,p_query_headings=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_query_headings=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'declare  ',
 '    l_string varchar(32667);',
 'begin',
@@ -10005,11 +10211,12 @@ wwv_flow_api.create_report_region(
 ,p_name=>'Records Changed by Another User.'
 ,p_template=>wwv_flow_api.id(61218816313171274)
 ,p_display_sequence=>30
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
 ,p_region_attributes=>'style="width:100%;max-width:none;" '
 ,p_display_point=>'BODY'
-,p_source=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_source_type=>'NATIVE_SQL_REPORT'
+,p_query_type=>'SQL'
+,p_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select n001 as row_num,',
 '       c049 as action,',
 '       c048 as error,',
@@ -10032,11 +10239,9 @@ wwv_flow_api.create_report_region(
 ' where collection_name = ''LOAD_CONTENT''',
 '   and c049 in (''REVIEW'') ',
 ' order by seq_id'))
-,p_source_type=>'NATIVE_SQL_REPORT'
 ,p_display_when_condition=>'P5_REVIEW_COUNT'
 ,p_display_condition_type=>'ITEM_NOT_NULL_OR_ZERO'
-,p_query_row_template=>1
-,p_query_headings=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_query_headings=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'declare  ',
 '    l_string varchar(32667);',
 'begin',
@@ -10490,18 +10695,14 @@ wwv_flow_api.create_page(
 ,p_user_interface_id=>wwv_flow_api.id(61245003293171325)
 ,p_name=>'Login Page'
 ,p_alias=>'LOGIN_DESKTOP'
-,p_page_mode=>'NORMAL'
 ,p_step_title=>'Data Upload Filter Plugin Demo - Log In'
-,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
+,p_reload_on_submit=>'A'
+,p_warn_on_unsaved_changes=>'N'
 ,p_first_item=>'AUTO_FIRST_ITEM'
 ,p_autocomplete_on_off=>'OFF'
 ,p_step_template=>wwv_flow_api.id(61207132975171262)
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
-,p_overwrite_navigation_list=>'N'
 ,p_page_is_public_y_n=>'Y'
-,p_cache_mode=>'NOCACHE'
-,p_cache_timeout_seconds=>21600
 ,p_last_updated_by=>'DIRK'
 ,p_last_upd_yyyymmddhh24miss=>'20170227235346'
 );
@@ -10513,9 +10714,7 @@ wwv_flow_api.create_page_plug(
 ,p_region_template_options=>'#DEFAULT#'
 ,p_plug_template=>wwv_flow_api.id(61218620518171274)
 ,p_plug_display_sequence=>10
-,p_include_in_reg_disp_sel_yn=>'N'
 ,p_plug_display_point=>'BODY'
-,p_plug_query_row_template=>1
 ,p_plug_footer=>'Use demo/demo as credentials'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'TEXT'
@@ -10588,7 +10787,7 @@ wwv_flow_api.create_page_process(
 ,p_process_point=>'AFTER_SUBMIT'
 ,p_process_type=>'NATIVE_PLSQL'
 ,p_process_name=>'Set Username Cookie'
-,p_process_sql_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'apex_authentication.send_login_username_cookie (',
 '    p_username => lower(:P101_USERNAME) );'))
 ,p_error_display_location=>'INLINE_IN_NOTIFICATION'
@@ -10599,7 +10798,7 @@ wwv_flow_api.create_page_process(
 ,p_process_point=>'AFTER_SUBMIT'
 ,p_process_type=>'NATIVE_PLSQL'
 ,p_process_name=>'Login'
-,p_process_sql_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'apex_authentication.login(',
 '    p_username => :P101_USERNAME,',
 '    p_password => :P101_PASSWORD );'))
@@ -10631,7 +10830,7 @@ wwv_flow_api.create_install(
 );
 end;
 /
-prompt --application/deployment/install
+prompt --application/deployment/install/install_hr_tables
 begin
 wwv_flow_api.create_install_script(
  p_id=>wwv_flow_api.id(61600713215392213)
@@ -10640,7 +10839,9 @@ wwv_flow_api.create_install_script(
 ,p_sequence=>10
 ,p_script_type=>'INSTALL'
 ,p_script_option=>'TABLE'
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_condition_type=>'NOT_EXISTS'
+,p_condition=>'SELECT 1 FROM USER_TABLES WHERE TABLE_NAME = ''REGIONS'''
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'CREATE TABLE "REGIONS" ',
 '   (	"REGION_ID" NUMBER CONSTRAINT "REGION_ID_NN" NOT NULL ENABLE, ',
 '	"REGION_NAME" VARCHAR2(25), ',
@@ -10856,13 +11057,19 @@ wwv_flow_api.create_install_object(
 ,p_created_by=>'DIRK'
 ,p_created_on=>to_date('20170227004042','YYYYMMDDHH24MISS')
 );
+end;
+/
+prompt --application/deployment/install/install_hr_emp_imp
+begin
 wwv_flow_api.create_install_script(
  p_id=>wwv_flow_api.id(61620652026448483)
 ,p_install_id=>wwv_flow_api.id(61590490791368310)
 ,p_name=>'hr_emp_imp'
 ,p_sequence=>20
 ,p_script_type=>'INSTALL'
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_condition_type=>'NOT_EXISTS'
+,p_condition=>'SELECT 1 FROM USER_TABLES WHERE TABLE_NAME = ''EMPLOYEES_IMP'''
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'CREATE TABLE "EMPLOYEES_IMP" ',
 '   (	"EMPLOYEE_ID" NUMBER(6,0), ',
 '	"FIRST_NAME" VARCHAR2(20), ',
@@ -10891,13 +11098,19 @@ wwv_flow_api.create_install_script(
 '',
 ''))
 );
+end;
+/
+prompt --application/deployment/install/install_hr_populate
+begin
 wwv_flow_api.create_install_script(
  p_id=>wwv_flow_api.id(61610748197397999)
 ,p_install_id=>wwv_flow_api.id(61590490791368310)
 ,p_name=>'hr_populate'
 ,p_sequence=>30
 ,p_script_type=>'INSTALL'
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_condition_type=>'NOT_EXISTS'
+,p_condition=>'SELECT 1 FROM REGIONS'
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '-- INSERTING into REGIONS',
 'Insert into REGIONS (REGION_ID,REGION_NAME) values (''1'',''Europe'');',
 'Insert into REGIONS (REGION_ID,REGION_NAME) values (''2'',''Americas'');',
@@ -11157,7 +11370,7 @@ end;
 begin
 wwv_flow_api.append_to_install_script(
  p_id=>wwv_flow_api.id(61610748197397999)
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 ',''SA_REP'',7200,0.1,147,80);',
 'Insert into EMPLOYEES (EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY,COMMISSION_PCT,MANAGER_ID,DEPARTMENT_ID) values (165,''David'',''Lee'',''DLEE'',''011.44.1346.529268'',to_date(''23.02.00 00:00:00'',''DD.MM.RR HH24:MI:SS''),''SA_R'
 ||'EP'',6800,0.1,147,80);',
@@ -11269,13 +11482,20 @@ wwv_flow_api.append_to_install_script(
 '',
 ''))
 );
+null;
+end;
+/
+prompt --application/deployment/install/install_emp_imp_populate
+begin
 wwv_flow_api.create_install_script(
  p_id=>wwv_flow_api.id(38379081877531903)
 ,p_install_id=>wwv_flow_api.id(61590490791368310)
 ,p_name=>'emp_imp populate'
 ,p_sequence=>40
 ,p_script_type=>'INSTALL'
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_condition_type=>'NOT_EXISTS'
+,p_condition=>'SELECT 1 FROM EMPLOYEES_IMP'
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'delete from EMPLOYEES_IMP;',
 'Insert into EMPLOYEES_IMP (EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY,COMMISSION_PCT,MANAGER_ID,DEPARTMENT_ID) values (100,''Steven'',''King'',''SKING'',''515.123.4567'',to_date(''17.06.87 00:00:00'',''DD.MM.RR HH24:MI:SS''),''AD_'
 ||'PRES'',24000,null,null,90);',
@@ -11289,15 +11509,19 @@ wwv_flow_api.create_install_script(
 '',
 'commit;'))
 );
+end;
+/
+prompt --application/deployment/install/install_filter_uploaded_data_plsql_code
+begin
 wwv_flow_api.create_install_script(
  p_id=>wwv_flow_api.id(61610889369402882)
 ,p_install_id=>wwv_flow_api.id(61590490791368310)
 ,p_name=>'filter_uploaded_data_plsql_code'
 ,p_sequence=>50
 ,p_script_type=>'INSTALL'
-,p_script_clob=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
 '/*',
-'Copyright 2017 Dirk Strack',
+'Copyright 2017-2019 Dirk Strack, Strack Software Development',
 '',
 'Licensed under the Apache License, Version 2.0 (the "License");',
 'you may not use this file except in compliance with the License.',
@@ -11337,12 +11561,15 @@ wwv_flow_api.create_install_script(
 '*/',
 '',
 'CREATE OR REPLACE PACKAGE import_filter_plugin',
+'AUTHID CURRENT_USER',
 'IS',
 '	TYPE cur_type IS REF CURSOR;',
 '	g_msg_file_name_empty 	CONSTANT VARCHAR2(50) := ''File name is empty.'';',
 '	g_msg_file_empty 		CONSTANT VARCHAR2(50) := ''File content is empty.'';',
+'	g_msg_no_data_found		CONSTANT VARCHAR2(50) := ''No valid data found in import file.'';',
 '	g_msg_line_delimiter 	CONSTANT VARCHAR2(50) := ''Line delimiter not found.'';',
-'	g_msg_separator 		CONSTANT VARCHAR2(50) := ''Separator not found in first line.'';',
+'	g_msg_separator_head 	CONSTANT VARCHAR2(50) := ''Separator not found in first line.'';',
+'	g_msg_separator_body	CONSTANT VARCHAR2(50) := ''Separator not found in line '';',
 '	g_msg_bad_row			CONSTANT VARCHAR2(50) := ''Row %0 : %1'';',
 '	g_msg_process_success 	CONSTANT VARCHAR2(100) := ''Filtered uploaded data. Found %0 good rows and %1 bad rows.'';',
 '	g_linemaxsize     		CONSTANT INTEGER 	  := 4000;',
@@ -11354,12 +11581,14 @@ wwv_flow_api.create_install_script(
 '',
 '	FUNCTION Split_Clob(',
 '		p_clob IN CLOB,',
+'		p_Enclosed_By 		IN VARCHAR2,',
 '		p_delimiter IN VARCHAR2',
 '	) RETURN sys.odciVarchar2List PIPELINED;	-- VARCHAR2(4000)',
 '',
 '	PROCEDURE Filter_Uploaded_Data (',
 '		p_Import_From		IN OUT VARCHAR2, -- UPLOAD or PASTE',
-'		p_Column_Delimiter  IN VARCHAR2,',
+'		p_Column_Delimiter  IN VARCHAR2 DEFAULT NULL,',
+'		p_Enclosed_By       IN VARCHAR2 DEFAULT ''"'',',
 '		p_File_Name			IN VARCHAR2,',
 '		p_File_Table_Name	IN VARCHAR2,',
 '		p_Character_Set		IN VARCHAR2,',
@@ -11380,21 +11609,82 @@ wwv_flow_api.create_install_script(
 '',
 '',
 'CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS',
+'',
+'	function Charset_Code (p_Charset_Name VARCHAR2) return varchar2',
+'	is',
+'	begin',
+'		return case lower(p_Charset_Name)',
+'			when ''iso-8859-6'' then ''AR8ISO8859P6'' -- ''Arabic ISO-8859-6''',
+'			when ''windows-1256'' then ''AR8MSWIN1256'' -- ''Arabic Windows 1256''',
+'			when ''big5'' then ''ZHT16MSWIN950'' -- ''Chinese Big5''',
+'			when ''gbk'' then ''ZHS16GBK'' -- ''Chinese GBK''',
+'			when ''iso-8859-5'' then ''CL8ISO8859P5'' -- ''Cyrilic ISO-8859-5''',
+'			when ''koi8-r'' then ''CL8KOI8R'' -- ''Cyrilic KOI8-R''',
+'			when ''koi8-u'' then ''CL8KOI8U'' -- ''Cyrilic KOI8-U''',
+'			when ''windows-1251'' then ''CL8MSWIN1251'' -- ''Cyrilic Windows 1251''',
+'			when ''iso-8859-2'' then ''EE8ISO8859P2'' -- ''Eastern European ISO-8859-2''',
+'			when ''windows-1250'' then ''EE8MSWIN1250'' -- ''Eastern European Windows 1250''',
+'			when ''iso-8859-7'' then ''EL8ISO8859P7'' -- ''Greek ISO-8859-7''',
+'			when ''windows-1253'' then ''EL8MSWIN1253'' -- ''Greek Windows 1253''',
+'			when ''iso-8859-8-i'' then ''IW8ISO8859P8'' -- ''Hebrew ISO-8859-8-i''',
+'			when ''windows-1255'' then ''IW8MSWIN1255'' -- ''Hebrew Windows 1255''',
+'			when ''euc-jp'' then ''JA16EUC'' -- ''Japanese EUC''',
+'			when ''shift_jis'' then ''JA16SJIS'' -- ''Japanese Shift JIS''',
+'			when ''euc-kr'' then ''KO16MSWIN949'' -- ''Korean EUC''',
+'			when ''iso-8859-4'' then ''NEE8ISO8859P4'' -- ''Northern European ISO-8859-4''',
+'			when ''windows-1257'' then ''BLT8MSWIN1257'' -- ''Northern European Windows 1257''',
+'			when ''iso-8859-3'' then ''SE8ISO8859P3'' -- ''Southern European ISO-8859-3''',
+'			when ''tis-620'' then ''TH8TISASCII'' -- ''Thai TIS-620''',
+'			when ''iso-8859-9'' then ''WE8ISO8859P9'' -- ''Turkish ISO-8859-9''',
+'			when ''windows-1254'' then ''TR8MSWIN1254'' -- ''Turkish Windows 1254''',
+'			when ''utf-8'' then ''AL32UTF8'' -- ''Unicode UTF-8''',
+'			when ''utf-16be'' then ''AL16UTF16'' -- ''Unicode UTF-16 Big Endian''',
+'			when ''utf-16le'' then ''AL16UTF16LE'' -- ''Unicode UTF-16 Little Endian''',
+'			when ''windows-1258'' then ''VN8MSWIN1258'' -- ''Vietnamese Windows 1258''',
+'			when ''iso-8859-1'' then ''WE8ISO8859P1'' -- ''Western European ISO-8859-1''',
+'			when ''iso-8859-15'' then ''WE8ISO8859P15'' -- ''Western European ISO-8859-15''',
+'			when ''windows-1252'' then ''WE8MSWIN1252'' -- ''Western European Windows 1252''',
+'			when ''euc-tw'' then ''ZHT32EUC'' -- ''Chinese EUC''',
+'			when ''us-ascii'' then ''US7ASCII'' -- ''US-ASCII''',
+'			else p_Charset_Name',
+'		end;',
+'	end;',
+'',
 '	FUNCTION Blob_to_Clob(',
 '		p_blob IN BLOB,',
 '		p_blob_charset IN VARCHAR2 DEFAULT NULL',
 '	)  return CLOB',
 '	is',
-'	  v_clob	NCLOB;',
-'	  v_dstoff	PLS_INTEGER := 1;',
-'	  v_srcoff	PLS_INTEGER := 1;',
-'	  v_langctx PLS_INTEGER := 0;',
-'	  v_warning PLS_INTEGER := 1;',
-'	  v_blob_csid PLS_INTEGER;',
+'	v_clob	CLOB;',
+'	v_dstoff	INTEGER := 1;',
+'	v_srcoff	INTEGER := 1;',
+'	v_langctx 	INTEGER := 0;',
+'	v_warning 	INTEGER := 1;',
+'	v_blob_csid NUMBER;',
+'	v_utf8_bom  raw(10) := hextoraw(''EFBBBF'');',
+'	v_utf16le_bom raw(10) := hextoraw(''FFFE'');',
+'	v_file_head raw(10);',
 '	begin',
-'		v_blob_csid := nvl(nls_charset_id(p_blob_charset), nls_charset_id(''AL32UTF8''));',
+'		if dbms_lob.getlength(p_blob) > 3 then',
+'			if p_blob_charset IS NOT NULL then',
+'				v_blob_csid := nls_charset_id(Charset_Code(p_blob_charset));',
+'			end if;',
+'			if v_blob_csid IS NULL then',
+'				v_blob_csid := DBMS_LOB.DEFAULT_CSID;',
+'			end if;',
 '',
-'		if dbms_lob.getlength(p_blob) > 0 then',
+'			v_file_head := dbms_lob.substr(p_blob, 3, 1);',
+'			if UTL_RAW.COMPARE (v_utf8_bom, v_file_head) = 0 then',
+'				v_srcoff := 4;',
+'				v_blob_csid := nls_charset_id(''AL32UTF8'');',
+'			else ',
+'				v_file_head := dbms_lob.substr(p_blob, 2, 1);',
+'				if UTL_RAW.COMPARE (v_utf16le_bom, v_file_head) = 0 then',
+'					v_srcoff := 3;',
+'					v_blob_csid := nls_charset_id(''AL16UTF16LE'');',
+'				end if;',
+'			end if;',
+'',
 '			dbms_lob.createtemporary(v_clob, true, dbms_lob.call);',
 '			dbms_lob.converttoclob(',
 '				dest_lob   =>	v_clob,',
@@ -11410,30 +11700,100 @@ wwv_flow_api.create_install_script(
 '		return v_clob;',
 '	end Blob_to_Clob;',
 '',
-'	FUNCTION Split_Clob(',
-'		p_clob IN CLOB,',
-'		p_delimiter IN VARCHAR2',
+'	FUNCTION Split_Clob (',
+'		p_clob 				IN CLOB,',
+'		p_Enclosed_By 		IN VARCHAR2,',
+'		p_delimiter 		IN VARCHAR2',
 '	) RETURN sys.odciVarchar2List PIPELINED	-- VARCHAR2(4000)',
 '	IS',
-'		v_dellen    CONSTANT INTEGER := length(p_delimiter);',
-'		v_pos2 		INTEGER			:= dbms_lob.getlength(p_clob);',
-'		v_pos  		INTEGER			:= 1;',
-'		v_linelen	INTEGER;',
+'		v_dellen    PLS_INTEGER;',
+'		v_loblen	PLS_INTEGER			:= dbms_lob.getlength(p_clob);',
+'		v_pos2 		PLS_INTEGER			:= 1;',
+'		v_pos  		PLS_INTEGER			:= 1;',
+'		v_parity1	PLS_INTEGER			:= 1;',
+'		v_parity2	PLS_INTEGER			:= 1;',
+'		v_linelen	PLS_INTEGER;',
+'		v_delimiter VARCHAR2(10);',
+'		v_Line 		VARCHAR2(32767);',
+'		v_Row_Line 	VARCHAR2(32767);',
 '	begin',
-'		if p_clob IS NOT NULL then',
+'		v_delimiter	:= p_delimiter;',
+'		v_dellen	:= length(v_delimiter);',
+'		if p_clob IS NOT NULL and v_loblen > 0 and v_dellen > 0 then',
 '			loop',
-'				exit when v_pos2 = 0;',
-'				v_pos2 := dbms_lob.instr( p_clob, p_delimiter, v_pos );',
-'				v_linelen := case when v_pos2 >= v_pos',
-'					then least(v_pos2 - v_pos, g_linemaxsize)',
-'					else g_linemaxsize end;',
-'				pipe row( dbms_lob.substr( p_clob, v_linelen, v_pos ) );',
+'				exit when v_pos2 >= v_loblen;',
+'				v_pos2 := dbms_lob.instr( p_clob, v_delimiter, v_pos );',
+'				if v_pos2 = 0 then -- process last line',
+'					v_pos2 := v_loblen;',
+'					v_linelen := least(v_pos2 - v_pos + v_dellen, g_linemaxsize);',
+'					v_Row_Line := dbms_lob.substr( p_clob, v_linelen, v_pos );',
+'				else',
+'					v_linelen := least(v_pos2 - v_pos, g_linemaxsize);',
+'					if p_Enclosed_By IS NOT NULL then ',
+'						v_Line := dbms_lob.substr( p_clob, v_linelen, v_pos );',
+'						v_parity2 := mod(abs(length(replace(v_Line, p_Enclosed_By))-v_linelen), 2);',
+'						v_parity1 := abs(v_parity2 - v_parity1);',
+'						v_Row_Line := v_Row_Line || v_Line;',
+'						v_linelen := length(v_Row_Line);',
+'					else',
+'						v_Row_Line := dbms_lob.substr( p_clob, v_linelen, v_pos );',
+'					end if;',
+'				end if;',
+'				if v_linelen > 0 and v_parity1 = 1 then ',
+'					pipe row( v_Row_Line );',
+'					v_Row_Line := null;',
+'				end if;',
 '				v_pos := v_pos2 + v_dellen;',
 '			end loop;',
 '		end if;',
 '		return ;',
 '	END;',
 '',
+'	FUNCTION Find_Column_Delimiter (',
+'		p_clob 			IN CLOB,',
+'		p_New_Line 		IN VARCHAR2',
+'	) RETURN VARCHAR2',
+'	is',
+'		v_Row_Line 			VARCHAR2(32767);',
+'		v_Row_Line2 		VARCHAR2(32767);',
+'		v_Column_Cnt 		PLS_INTEGER;',
+'		v_Column_Cnt2 		PLS_INTEGER;',
+'		v_Offset	 		PLS_INTEGER;',
+'		v_Offset2	 		PLS_INTEGER;',
+'		v_Column_Delimiter 	VARCHAR2(10);',
+'		v_Nllen PLS_INTEGER := LENGTH(p_New_Line);',
+'	begin ',
+'	',
+'		for c_rows in (',
+'			SELECT S.Column_Value, ROWNUM Line_No',
+'			FROM TABLE( apex_string.split(p_str => chr(9)||'':#:|:;:,'', p_sep => '':'') ) S',
+'		)',
+'		loop',
+'			v_Column_Delimiter := c_rows.Column_Value;',
+'			v_Offset   := dbms_lob.instr(p_Clob, p_New_Line);',
+'			v_Row_Line := RTRIM(dbms_lob.substr(p_clob, v_Offset - 1, 1), v_Column_Delimiter);',
+'			v_Column_Cnt := 1 + LENGTH(v_Row_Line) - LENGTH(REPLACE(v_Row_Line, v_Column_Delimiter));',
+'',
+'			v_Offset2   := dbms_lob.instr(p_clob, p_New_Line, v_Offset+v_Nllen);',
+'			v_Row_Line2 := RTRIM(dbms_lob.substr(p_clob, v_Offset2 - v_Offset - v_Nllen, v_Offset+v_Nllen), v_Column_Delimiter);',
+'			if LENGTH(v_Row_Line2) > 0 then ',
+'				v_Column_Cnt2 := 1 + LENGTH(v_Row_Line2) - LENGTH(REPLACE(v_Row_Line2, v_Column_Delimiter));',
+'			else ',
+'				v_Column_Cnt2 := v_Column_Cnt;',
+'			end if;',
+'			if apex_application.g_debug then',
+'				apex_debug.info(''Find_Column_Delimiter : %s'', v_Column_Delimiter);',
+'				apex_debug.info(''v_Column_Cnt : %s. Import_Row_Line : #%s#'', v_Column_Cnt, v_Row_Line);',
+'				apex_debug.info(''v_Column_Cnt2 : %s. Import_Row_Line2 : #%s#'', v_Column_Cnt2, v_Row_Line2);',
+'			end if;',
+'			if v_Column_Cnt > 1 and v_Column_Cnt = v_Column_Cnt2 then ',
+'				return v_Column_Delimiter;',
+'			end if;',
+'		end loop;',
+'		',
+'		return v_Column_Delimiter;',
+'	end;',
+'	',
 '	FUNCTION Decode_Delimiter(',
 '		p_delimiter IN VARCHAR2',
 '	)',
@@ -11450,7 +11810,8 @@ wwv_flow_api.create_install_script(
 '',
 '	PROCEDURE Filter_Uploaded_Data (',
 '		p_Import_From		IN OUT VARCHAR2, -- UPLOAD or PASTE. UPLOAD will be replaced by PASTE',
-'		p_Column_Delimiter  IN VARCHAR2,',
+'		p_Column_Delimiter  IN VARCHAR2 DEFAULT NULL,',
+'		p_Enclosed_By       IN VARCHAR2 DEFAULT ''"'',',
 '		p_File_Name			IN VARCHAR2,',
 '		p_File_Table_Name	IN VARCHAR2,',
 '		p_Character_Set		IN VARCHAR2,',
@@ -11461,16 +11822,19 @@ wwv_flow_api.create_install_script(
 '	)',
 '	is',
 '		v_Clob   			CLOB;',
+'		v_Line_Array 		apex_t_varchar2;',
 '		v_Bad_Result 		CLOB;',
 '		v_Good_Result 		CLOB;',
-'		v_Line_Delimiter 	VARCHAR2(10);',
+'		v_New_Line 			VARCHAR2(10);',
 '		v_Column_Delimiter 	VARCHAR2(10);',
+'		v_Enclosed_By    	VARCHAR2(10);',
 '		v_Row_Line 			VARCHAR2(32767);',
 '		v_Bad_Rows_Limit	PLS_INTEGER := NVL(p_Bad_Rows_Limit, 100);',
 '		v_Bad_Rows_Cnt 		PLS_INTEGER := 0;',
 '		v_Good_Rows_Cnt 	PLS_INTEGER := 0;',
-'		v_Column_Cnt 		NUMBER;',
-'		v_Offset	 		NUMBER;',
+'		v_Column_Cnt 		PLS_INTEGER;',
+'		v_Column_Limit		PLS_INTEGER;',
+'		v_Offset	 		PLS_INTEGER;',
 '   		cv 					CUR_TYPE;',
 '	begin',
 '		p_Bad_Rows_Limit	:= 0;',
@@ -11479,10 +11843,7 @@ wwv_flow_api.create_install_script(
 '		dbms_lob.createtemporary(v_Bad_Result, true, dbms_lob.call);',
 '		dbms_lob.createtemporary(v_Good_Result, true, dbms_lob.call);',
 '',
-'		v_Column_Delimiter :=',
-'			case p_Column_Delimiter',
-'			when ''\t'' then chr(9)',
-'			else p_Column_Delimiter end;',
+'		v_Enclosed_By := p_Enclosed_By;',
 '',
 '		if p_Import_From = ''UPLOAD'' then',
 '			if p_File_Name IS NULL then',
@@ -11509,37 +11870,57 @@ wwv_flow_api.create_install_script(
 '			WHERE collection_name = ''CLOB_CONTENT'';',
 '		end if;',
 '		-- try line delimiter \r\n -- crlf',
-'		v_Line_Delimiter := chr(13) || chr(10);',
-'		v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);',
+'		v_New_Line := chr(13) || chr(10);',
+'		v_Offset   := dbms_lob.instr(v_Clob, v_New_Line);',
 '		if v_Offset = 0 or v_Offset >= g_linemaxsize then',
 '			-- try line delimiter lf',
-'			v_Line_Delimiter := chr(10);',
-'			v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);',
+'			v_New_Line := chr(10);',
+'			v_Offset   := dbms_lob.instr(v_Clob, v_New_Line);',
 '		end if;',
 '		if v_Offset = 0 or v_Offset >= g_linemaxsize then',
 '			-- try line delimiter cr',
-'			v_Line_Delimiter := chr(13);',
-'			v_Offset   := dbms_lob.instr(v_Clob, v_Line_Delimiter);',
+'			v_New_Line := chr(13);',
+'			v_Offset   := dbms_lob.instr(v_Clob, v_New_Line);',
 '		end if;',
 '		if v_Offset = 0 or v_Offset >= g_linemaxsize  then',
 '			p_Message := g_msg_line_delimiter;',
 '			return;',
 '		end if;',
-'',
-'		v_Row_Line := SUBSTR(v_Clob, 1, v_Offset - 1);',
-'		v_Column_Cnt := LENGTH(v_Row_Line) - LENGTH(REPLACE(v_Row_Line, v_Column_Delimiter));',
-'		if v_Column_Cnt = 0 then',
-'			p_Message := g_msg_separator;',
+'		-- set Column Delimiter',
+'		if p_Column_Delimiter IS NULL then ',
+'			v_Column_Delimiter := Find_Column_Delimiter(v_Clob, v_New_Line);',
+'		else ',
+'			v_Column_Delimiter :=',
+'				case p_Column_Delimiter',
+'				when ''\t'' then chr(9)',
+'				else p_Column_Delimiter end;',
+'		end if;',
+'		-- probe Column Delimiter',
+'		v_Row_Line := RTRIM(dbms_lob.substr( v_clob, v_Offset - 1, 1 ), v_Column_Delimiter);',
+'		v_Column_Cnt := 1 + LENGTH(v_Row_Line) - LENGTH(REPLACE(v_Row_Line, v_Column_Delimiter));',
+'		if v_Column_Cnt = 1 and p_Column_Delimiter IS NOT NULL then',
+'			p_Message := g_msg_separator_head;',
 '			return;',
+'		end if;',
+'		-- probe optionally enclosed by',
+'		if SUBSTR(v_Row_Line, 1, 1) = v_Enclosed_By',
+'		and SUBSTR(RTRIM(v_Row_Line, v_Column_Delimiter||'' ''), -1, 1) = v_Enclosed_By',
+'		and LENGTH(v_Row_Line) > 2 then',
+'			v_Column_Delimiter 	:= v_Enclosed_By || v_Column_Delimiter || v_Enclosed_By;',
+'		else',
+'			v_Enclosed_By := NULL;',
 '		end if;',
 '',
 '		for c_rows in (',
 '			SELECT S.Column_Value, ROWNUM Line_No',
-'			FROM TABLE( import_filter_plugin.Split_Clob(v_Clob, v_Line_Delimiter) ) S',
+'			FROM TABLE( import_filter_plugin.Split_Clob(v_Clob, p_Enclosed_By, v_New_Line) ) S',
 '		)',
 '		loop',
 '			if c_rows.Column_Value IS NOT NULL then',
-'				v_Row_Line := c_rows.Column_Value || v_Line_Delimiter;',
+'				v_Row_Line := case when v_Enclosed_By IS NOT NULL',
+'								then SUBSTR(c_rows.Column_Value, 2, LENGTH(c_rows.Column_Value)-2)',
+'								else c_rows.Column_Value end',
+'							|| v_New_Line;',
 '				-- check count of columns',
 '				if instr(v_Row_Line, v_Column_Delimiter, 1, v_Column_Cnt) = 0 then',
 '					v_Bad_Rows_Cnt := v_Bad_Rows_Cnt + 1;',
@@ -11665,11 +12046,16 @@ wwv_flow_api.create_install_script(
 '					p1 => v_Bad_Rows_Cnt,',
 '					p_primary_language => ''en''',
 '				);',
-'			else',
-'				v_exec_result.success_message := APEX_LANG.LANG (',
-'					p_primary_text_string => v_Message,',
-'					p_primary_language => ''en''',
-'				);',
+'			elsif v_Message = ''OK'' and v_Good_Rows_Cnt = 0 then',
+'				Apex_Error.Add_Error (',
+'					p_message  => Apex_Lang.Lang(g_msg_no_data_found, p_primary_language => ''en''),',
+'					p_display_location => apex_error.c_inline_in_notification',
+'				);				',
+'			elsif v_Message != ''OK'' then',
+'				Apex_Error.Add_Error (',
+'					p_message  => Apex_Lang.Lang(v_Message, p_primary_language => ''en''),',
+'					p_display_location => apex_error.c_inline_in_notification',
+'				);				',
 '			end if;',
 '		end if;',
 '		RETURN v_exec_result;',

@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Dirk Strack, Strack Software Development
+Copyright 2017-2019 Dirk Strack, Strack Software Development
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -524,7 +524,7 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 					p1 => v_Bad_Rows_Cnt,
 					p_primary_language => 'en'
 				);
-			elsif v_Message = 'OK' and v_Rows_Cnt = 0 then
+			elsif v_Message = 'OK' and v_Good_Rows_Cnt = 0 then
 				Apex_Error.Add_Error (
 					p_message  => Apex_Lang.Lang(g_msg_no_data_found, p_primary_language => 'en'),
 					p_display_location => apex_error.c_inline_in_notification
