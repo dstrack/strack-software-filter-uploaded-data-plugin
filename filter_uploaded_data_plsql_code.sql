@@ -424,13 +424,18 @@ CREATE OR REPLACE PACKAGE BODY import_filter_plugin IS
 				p_clob001 => v_Good_Result
 			);
 		elsif p_Import_From = 'UPLOAD' then
-			apex_collection.truncate_collection('CLOB_CONTENT');
+			begin
+			  apex_collection.create_or_truncate_collection (p_collection_name=>'CLOB_CONTENT');
+			exception
+			  when dup_val_on_index then null;
+			end;
 			apex_collection.add_member (
 				p_collection_name => 'CLOB_CONTENT',
 				p_clob001 => v_Good_Result
 			);
 			p_Import_From := 'PASTE';
 		end if;
+		commit;
 		p_Return_Bad_Rows  	:= v_Bad_Result;
 		p_Bad_Rows_Limit	:= v_Bad_Rows_Cnt;
 		p_Good_Rows_Cnt		:= v_Good_Rows_Cnt;
